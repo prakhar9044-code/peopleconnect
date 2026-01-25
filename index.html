@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeopleConnect | Elite Support Ecosystem</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<a href="https://buymeacoffee.com/prakhar_codess" target="_blank" id="bmc-btn" title="Buy Me a Coffee">
+    <i class="fa-solid fa-mug-hot"></i>
+</a>
+
+<div id="auth-modal" class="modal-overlay">
+    <div class="auth-box">
+        <i class="fa-solid fa-xmark auth-close" onclick="closeAuth()"></i>
+        <div id="login-form" class="form-container active">
+            <div class="auth-header"><h2>Welcome Back</h2><p>Login to access tools</p></div>
+            <div id="login-error" class="auth-error">Incorrect password. Please try again.</div>
+            <form class="auth-form" onsubmit="handleLogin(event)">
+                <div class="input-group"><input type="email" id="login-email" required placeholder=" "><label>Email</label></div>
+                <div class="input-group"><input type="password" id="login-pass" required placeholder=" "><label>Password</label></div>
+                <button type="submit" class="auth-submit" id="login-btn"><span>Log In</span></button>
+            </form>
+            <div class="social-login">
+                <div class="social-btn" onclick="handleSocialLogin('Google')"><i class="fa-brands fa-google"></i> Google</div>
+                <div class="social-btn" onclick="handleSocialLogin('GitHub')"><i class="fa-brands fa-github"></i> GitHub</div>
+            </div>
+            <div class="auth-switch">New here? <span onclick="switchAuth('register')">Create Account</span></div>
+        </div>
+        <div id="register-form" class="form-container">
+            <div class="auth-header"><h2>Join Us</h2><p>Create your account</p></div>
+            <form class="auth-form" onsubmit="handleRegister(event)">
+                <div class="input-group"><input type="text" id="reg-name" required placeholder=" "><label>Full Name</label></div>
+                <div class="input-group"><input type="email" id="reg-email" required placeholder=" "><label>Email</label></div>
+                <div class="input-group"><input type="password" id="reg-pass" required placeholder=" "><label>Password</label></div>
+                <button type="submit" class="auth-submit" id="reg-btn"><span>Sign Up</span></button>
+            </form>
+            <div class="auth-switch">Already have an account? <span onclick="switchAuth('login')">Log In</span></div>
+        </div>
+    </div>
+</div>
+
+<div id="profile-modal" class="modal-overlay">
+    <div class="profile-box">
+        <i class="fa-solid fa-xmark auth-close" onclick="closeProfile()"></i>
+        <div class="profile-header">
+            <div class="profile-avatar-lg" id="p-avatar">JD</div>
+            <h2 id="p-name" style="letter-spacing: -0.5px;">John Doe</h2>
+            <div style="display: inline-block; margin-top: 8px; padding: 4px 12px; background: rgba(255,255,255,0.05); border-radius: 50px; font-size: 0.75rem; color: var(--muted);">Member since 2026</div>
+        </div>
+        
+        <div class="profile-body" id="profile-main-view">
+            <div class="perf-card" onclick="viewUserHistory('surveys')">
+                <div class="perf-icon"><i class="fa-solid fa-wave-square"></i></div>
+                <div>
+                    <p style="color:var(--muted); font-size:0.75rem; text-transform: uppercase; letter-spacing: 1px;">Stress Assessment</p>
+                    <h4 style="font-size:1rem; font-weight: 600;" id="p-mood">Not assessed yet</h4>
+                </div>
+            </div>
+            <div class="perf-card" onclick="viewUserHistory('journals')">
+                <div class="perf-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                <div>
+                    <p style="color:var(--muted); font-size:0.75rem; text-transform: uppercase; letter-spacing: 1px;">Reflection Log</p>
+                    <h4 style="font-size:1rem; font-weight: 600;" id="p-journal">0 saved entries</h4>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
+        </div>
+
+        <div class="history-view" id="profile-history-view">
+            <button class="back-btn" onclick="backToProfileMain()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <h3 id="history-title" style="margin-bottom: 15px; font-size: 1.2rem;">History</h3>
+            <div id="history-content" style="max-height: 300px; overflow-y: auto;">
+                </div>
+        </div>
+    </div>
+</div>
+
+<div id="admin-modal" class="modal-overlay">
+    <div class="admin-box">
+        <div class="admin-header">
+            <div style="display:flex; gap:20px;">
+                <button class="tab-btn active" onclick="switchAdminTab('users')">All Users</button>
+                <button class="tab-btn" onclick="switchAdminTab('surveys')">Survey Data</button>
+                <button class="tab-btn" onclick="switchAdminTab('journals')">Journal Entries</button>
+            </div>
+            <div style="display:flex; gap:15px; align-items:center;">
+                <button class="download-btn" onclick="downloadAdminReport()"><i class="fa-solid fa-file-pdf"></i> Download Database</button>
+                <i class="fa-solid fa-xmark auth-close" style="position:relative; top:0; right:0;" onclick="closeAdmin()"></i>
+            </div>
+        </div>
+        <div class="admin-content" id="admin-view">
+            </div>
+    </div>
+</div>
+
+<nav>
+  <div class="logo">PEOPLE<span>CONNECT</span></div>
+  <div class="nav-links">
+    <a href="#deepwork" class="link">Deep Work</a>
+    <a href="#locator" class="link">Nearby</a>
+    <a href="#hub" class="link">Hub</a>
+    <a href="#mental" class="link">Wellness</a>
+    <div class="nav-emergency">
+        <a href="tel:100" class="em-icon police" title="Police"><i class="fa-solid fa-shield-halved"></i></a>
+        <a href="tel:108" class="em-icon ambulance" title="Ambulance"><i class="fa-solid fa-truck-medical"></i></a>
+        <a href="tel:18005990019" class="em-icon support" title="Support"><i class="fa-solid fa-brain"></i></a>
+    </div>
+    <span class="toggle-btn" onclick="toggleTheme()"><i class="fa-solid fa-circle-half-stroke"></i></span>
+    <button id="nav-login-btn" class="login-btn-nav" onclick="openAuth()"><i class="fa-solid fa-user"></i> Login</button>
+    <button id="nav-admin-btn" class="login-btn-nav admin-badge" style="display:none;" onclick="openAdmin()"><i class="fa-solid fa-lock"></i> Admin Panel</button>
+    <div id="nav-user-profile" class="user-profile-nav" onclick="openProfile()">
+        <div class="user-avatar" id="nav-avatar">JD</div>
+        <span style="font-size:0.9rem; font-weight:600;" id="nav-name">John Doe</span>
+    </div>
+  </div>
+</nav>
+
+<header id="hero-header">
+  <div class="hero">
+    <h1>Care without<br>Boundaries.</h1>
+    <p>Hyper-local support, real-time crisis aid, and clinical-grade mental health intelligence.</p>
+    <button class="cta-btn" onclick="checkAuth('geo')">Locate Services Near Me</button>
+  </div>
+</header>
+
+<section id="deepwork" class="deep-work-section">
+    <div class="section-head">
+        <h2>Deep Work Zone</h2>
+        <p>Distraction-free environment for academic focus.</p>
+    </div>
+    <div class="focus-container">
+        
+        <div class="focus-timer-box" id="focus-box">
+            <div class="timer-progress-bar" id="timer-bar"></div>
+            
+            <span id="timer-status" class="timer-status-badge">Ready to Focus?</span>
+            
+            <div style="position:relative; width:100px; margin:0 auto;">
+                <div class="steam-container">
+                    <div class="steam"></div><div class="steam"></div><div class="steam"></div>
+                </div>
+                <div class="coffee-cup">
+                    <div class="coffee-liquid" id="coffee-liquid"></div>
+                </div>
+                <div class="coffee-handle"></div>
+            </div>
+
+            <div class="timer-display" id="timer-display">25:00</div>
+            
+            <div class="timer-settings">
+                <div class="setting-grp">
+                    <label>Work (min)</label>
+                    <input type="number" id="work-dur" class="time-input" value="25" min="1" max="90" onchange="updateDuration()">
+                </div>
+                <div class="setting-grp">
+                    <label>Break (min)</label>
+                    <input type="number" id="break-dur" class="time-input" value="5" min="1" max="30" onchange="updateDuration()">
+                </div>
+            </div>
+
+            <div class="timer-controls">
+                <button class="btn-focus btn-start" id="start-btn" onclick="toggleTimer()">Start Session</button>
+                <button class="btn-focus btn-reset" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+        </div>
+
+        <div class="focus-mixer">
+            <h3 style="margin-bottom:10px;"><i class="fa-solid fa-sliders"></i> Ambient Mixer</h3>
+            
+            <div class="mixer-track">
+                <div class="mixer-icon"><i class="fa-solid fa-cloud-rain"></i></div>
+                <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('rain', this.value)">
+            </div>
+            
+            <div class="mixer-track">
+                <div class="mixer-icon"><i class="fa-solid fa-headphones"></i></div>
+                <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('lofi', this.value)">
+            </div>
+            
+            <div class="mixer-track">
+                <div class="mixer-icon"><i class="fa-solid fa-mug-hot"></i></div>
+                <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('cafe', this.value)">
+            </div>
+            
+            <audio id="dw-rain" loop src="https://cdn.pixabay.com/download/audio/2022/05/17/audio_415277a064.mp3?filename=rain-and-thunder-16705.mp3"></audio>
+            <audio id="dw-lofi" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"></audio>
+            <audio id="dw-cafe" loop src="https://cdn.pixabay.com/download/audio/2021/09/06/audio_341e77983c.mp3?filename=people-talking-in-a-cafe-6729.mp3"></audio>
+        </div>
+
+        <div class="focus-notes">
+            <h3><i class="fa-solid fa-brain"></i> Brain Dump</h3>
+            <p style="font-size:0.8rem; color:var(--muted);">Clear mental clutter here without leaving your flow.</p>
+            <textarea class="distraction-pad" id="distract-pad" placeholder="- Email professor... 
+- Buy groceries... 
+- Idea for project..." oninput="saveDistractions()"></textarea>
+        </div>
+    </div>
+</section>
+
+<div id="locator" class="geo-section">
+    <div class="geo-card">
+        <div class="geo-header">
+            <h2><i class="fa-solid fa-location-crosshairs" style="color:var(--primary)"></i> Services Near You</h2>
+            <p style="color:var(--muted)">Enable your location to scan for verified NGOs, food banks, and shelters.</p>
+            <button class="geo-btn" onclick="checkAuth('geo')"><i class="fa-solid fa-satellite-dish"></i> Start Scanning</button>
+        </div>
+        <div id="geo-loader" class="radar-loader"></div>
+        <div id="geo-results" class="local-results">
+            <div class="loc-card">
+                <div class="loc-header"><h3><i class="fa-solid fa-utensils"></i> Community Kitchen</h3><span class="loc-badge badge-open">OPEN NOW</span></div>
+                <span class="loc-dist"><i class="fa-solid fa-location-dot"></i> 0.8 km away</span>
+                <p class="loc-desc">Free nutritional meals for students and families. No ID required.</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Community+Kitchen+Near+Me" target="_blank" class="loc-btn"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+            </div>
+            <div class="loc-card">
+                <div class="loc-header"><h3><i class="fa-solid fa-bed"></i> Night Shelter #4</h3><span class="loc-badge badge-close">CLOSING SOON</span></div>
+                <span class="loc-dist"><i class="fa-solid fa-location-dot"></i> 1.2 km away</span>
+                <p class="loc-desc">Safe sleeping arrangement for tonight. Blankets provided.</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Night+Shelter" target="_blank" class="loc-btn"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+            </div>
+             <div class="loc-card">
+                <div class="loc-header"><h3><i class="fa-solid fa-user-doctor"></i> City Clinic</h3><span class="loc-badge badge-medical">MEDICAL</span></div>
+                <span class="loc-dist"><i class="fa-solid fa-location-dot"></i> 2.5 km away</span>
+                <p class="loc-desc">Emergency first aid and counseling services available 24/7.</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=City+Clinic" target="_blank" class="loc-btn"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pulse-section">
+    <div class="pulse-card">
+        <div class="pulse-info">
+            <h2><div class="live-dot"></div> Live Activity</h2>
+            <div class="pulse-numbers"><div class="p-stat"><h3 id="req-live">12</h3><p>Requests</p></div><div class="p-stat"><h3 id="vol-live">48</h3><p>Helpers</p></div></div>
+        </div>
+        <div class="graph-visualizer">
+            <div class="bar" style="animation-duration: 0.8s"></div><div class="bar" style="animation-duration: 1.2s"></div><div class="bar" style="animation-duration: 0.5s"></div><div class="bar" style="animation-duration: 1.0s"></div>
+            <div class="bar" style="animation-duration: 0.7s"></div><div class="bar" style="animation-duration: 1.5s"></div><div class="bar" style="animation-duration: 0.9s"></div><div class="bar" style="animation-duration: 0.6s"></div>
+        </div>
+    </div>
+</div>
+
+<main class="container">
+<section id="hub">
+  <div class="section-head"><h2>Service Hub</h2><p>Categorized resources for specific needs.</p></div>
+  <div class="grid">
+    <div class="card large"><div class="trust-badge verify-c"><i class="fa-solid fa-check-circle"></i> Community Verified</div><i class="fa-solid fa-bowl-food"></i><h3>Food & NGOs</h3><p>Locate community kitchens and food aid distributions.</p></div>
+    <div class="card"><div class="trust-badge verify-g"><i class="fa-solid fa-landmark"></i> Govt Listed</div><i class="fa-solid fa-bed"></i><h3>Shelter</h3><p>Secure night shelters.</p></div>
+    <div class="card"><div class="trust-badge verify-s"><i class="fa-solid fa-graduation-cap"></i> Student Recommended</div><i class="fa-solid fa-user-doctor"></i><h3>Student Care</h3><p>Academic & psychological support.</p></div>
+    <div class="card large"><div class="trust-badge verify-c"><i class="fa-solid fa-heart-pulse"></i> Medical Verified</div><i class="fa-solid fa-hospital"></i><h3>Emergency Blood</h3><p>Real-time donor database.</p></div>
+  </div>
+</section>
+
+<section class="news-section">
+    <div class="news-container">
+        <div class="news-track">
+            <div class="news-card"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=400&auto=format&fit=crop" class="news-img" alt="Students"><div class="news-badge">RESEARCH • 2025</div><div class="news-title">Student Anxiety Levels Drop by 15%</div><div class="news-date">New findings from the Healthy Minds Study show improvement in campus mental health.</div></div>
+            <div class="news-card"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&auto=format&fit=crop" class="news-img" alt="Group"><div class="news-badge">COMMUNITY • JAN 24</div><div class="news-title">Digital Therapy Tools on the Rise</div><div class="news-date">Over 60% of students now use apps like PeopleConnect for daily support.</div></div>
+            <div class="news-card"><img src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=400&auto=format&fit=crop" class="news-img" alt="Meditation"><div class="news-badge">WELLNESS • 2025</div><div class="news-title">Resilience Training in Schools</div><div class="news-date">New curriculum focuses on emotional regulation and coping strategies.</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="sound-section">
+    <h2><i class="fa-solid fa-music" style="color:var(--primary)"></i> Calm Soundscapes</h2>
+    <p style="color:var(--muted)">Immersive audio environments for focus and relaxation.</p>
+    <div class="sound-grid">
+        <button class="sound-btn" onclick="toggleSound('rain', this)"><i class="fa-solid fa-cloud-rain"></i> Rain</button>
+        <button class="sound-btn" onclick="toggleSound('white', this)"><i class="fa-solid fa-wind"></i> White Noise</button>
+        <button class="sound-btn" onclick="toggleSound('piano', this)"><i class="fa-solid fa-music"></i> Piano</button>
+    </div>
+    <audio id="audio-rain" loop src="https://cdn.pixabay.com/download/audio/2022/05/17/audio_415277a064.mp3?filename=rain-and-thunder-16705.mp3"></audio>
+    <audio id="audio-white" loop src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_88447e769f.mp3?filename=white-noise-8142.mp3"></audio>
+    <audio id="audio-piano" loop src="https://cdn.pixabay.com/download/audio/2022/03/09/audio_c8c8a73467.mp3?filename=meditation-piano-11516.mp3"></audio>
+</section>
+
+<section id="breathe">
+    <div class="breathe-box">
+        <h2>Breathe & Ground</h2>
+        <p>Synchronize your breath to lower cortisol levels.</p>
+        <div class="breath-circle"><span class="breath-text" id="breath-txt">Ready?</span></div>
+        <button id="breath-btn" class="breathe-control" onclick="checkAuth('breathe')">Start Session</button>
+        <div id="breath-results" class="breathe-results"><h3><i class="fa-solid fa-heart-pulse"></i> Session Complete</h3><p>Great job. Your nervous system is regulating.</p></div>
+    </div>
+</section>
+
+<section id="grounding">
+    <div class="grounding-box">
+        <div id="ground-welcome"><h2 class="ground-title">Sensory Grounding (5-4-3-2-1)</h2><p class="ground-desc">A powerful technique to calm anxiety by engaging your five senses.</p><button class="ground-btn" onclick="checkAuth('ground')">Start Grounding</button></div>
+        <div id="ground-steps" style="display:none;">
+            <div class="ground-step active" id="g-step-1"><span class="ground-count">5</span><div class="ground-icon"><i class="fa-solid fa-eye"></i></div><h3 class="ground-title">Acknowledge 5 things you see</h3><button class="ground-btn" onclick="nextGround(2)">Next <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="ground-step" id="g-step-2"><span class="ground-count">4</span><div class="ground-icon"><i class="fa-solid fa-hand-holding-heart"></i></div><h3 class="ground-title">Acknowledge 4 things you touch</h3><button class="ground-btn" onclick="nextGround(3)">Next <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="ground-step" id="g-step-3"><span class="ground-count">3</span><div class="ground-icon"><i class="fa-solid fa-ear-listen"></i></div><h3 class="ground-title">Acknowledge 3 things you hear</h3><button class="ground-btn" onclick="nextGround(4)">Next <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="ground-step" id="g-step-4"><span class="ground-count">2</span><div class="ground-icon"><i class="fa-solid fa-wind"></i></div><h3 class="ground-title">Acknowledge 2 things you smell</h3><button class="ground-btn" onclick="nextGround(5)">Next <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="ground-step" id="g-step-5"><span class="ground-count">1</span><div class="ground-icon"><i class="fa-solid fa-mug-hot"></i></div><h3 class="ground-title">Acknowledge 1 thing you taste</h3><button class="ground-btn" onclick="finishGround()">Finish <i class="fa-solid fa-check"></i></button></div>
+            <div class="ground-step" id="g-step-done"><div class="ground-icon" style="color:var(--success)"><i class="fa-solid fa-seedling"></i></div><h3 class="ground-title">Grounding Complete</h3><p class="ground-desc">You have successfully centered yourself.</p><button class="ground-btn" onclick="resetGround()">Close</button></div>
+        </div>
+    </div>
+</section>
+
+<section id="journal" class="journal-section">
+    <h2><i class="fa-solid fa-book-open" style="color:var(--primary)"></i> My Day Journal</h2>
+    <div style="margin-top:20px;">
+        <p style="font-size:0.9rem; margin-bottom:10px;">How are you feeling?</p>
+        <div class="mood-bar">
+            <button class="mood-btn" onclick="selectMood('😭')">😭</button>
+            <button class="mood-btn" onclick="selectMood('😕')">😕</button>
+            <button class="mood-btn" onclick="selectMood('😐')">😐</button>
+            <button class="mood-btn" onclick="selectMood('🙂')">🙂</button>
+            <button class="mood-btn" onclick="selectMood('🤩')">🤩</button>
+        </div>
+    </div>
+    <textarea id="journal-entry" class="journal-area" placeholder="Write about your day..."></textarea>
+    <div style="display:flex; justify-content:space-between; margin-top:15px; align-items:center;">
+        <span id="entry-count" style="color:var(--muted); font-size:0.9rem;">0 entries</span>
+        <button class="geo-btn" style="margin:0; padding:10px 25px;" onclick="checkAuth('journal')">Save</button>
+    </div>
+</section>
+
+<section id="mental">
+    <div class="survey-box">
+        <div id="survey-welcome" class="survey-welcome">
+            <div class="survey-icon-float"><i class="fa-solid fa-clipboard-check"></i></div>
+            <h2 style="font-size:2.5rem; margin-bottom:10px; font-weight:800;">Wellness Assessment</h2>
+            <p style="color:var(--muted); max-width:600px; margin:0 auto 30px; font-size:1.1rem;">A comprehensive check-in for your mind and body.</p>
+            <div class="survey-stats"><span class="stat-chip"><i class="fa-solid fa-list-ol"></i> 8 Questions</span><span class="stat-chip"><i class="fa-solid fa-clock"></i> 3 Minutes</span><span class="stat-chip"><i class="fa-solid fa-user-secret"></i> Anonymous</span></div>
+            <button class="cta-btn" style="padding:15px 40px; font-size:1.1rem; margin-top: 20px;" onclick="checkAuth('survey')">Start Check-In</button>
+        </div>
+        <div id="survey-ui" class="survey-ui">
+            <div class="progress-container"><div class="progress-fill" id="survey-fill"></div></div>
+            <div id="question-wrapper"></div>
+            <div class="survey-nav"><button class="nav-btn btn-prev" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button><button class="nav-btn btn-next" id="next-btn" onclick="nextQuestion()">Next</button></div>
+        </div>
+        <div id="survey-results" style="display:none; text-align:center; animation:fadeIn 0.5s; padding-top:20px;">
+            <div class="score-circle"><div class="score-inner"><div class="score-val" id="result-score">--</div><div class="score-label">Wellness Score</div></div></div>
+            <h2 id="res-mood" style="font-size:2rem; color:var(--primary); margin-bottom:10px;">Analyzing...</h2>
+            <p id="res-desc" style="color:var(--muted); max-width:600px; margin:0 auto 30px;"></p>
+            <div style="display:flex; justify-content:center; gap:15px;"><button class="loc-btn" style="width:auto;" onclick="location.reload()">Retake</button><button class="loc-btn" style="width:auto; background:var(--primary); border:none;" onclick="downloadReport()">Download Report</button></div>
+        </div>
+    </div>
+</section>
+
+<section class="anon-wall"><div class="anon-title"><i class="fa-solid fa-quote-left"></i> You Are Not Alone</div><div id="quote-display" class="quote-box">"You are valid."</div></section>
+</main>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-col"><h3>PeopleConnect</h3><p style="line-height:1.6; color:var(--muted);">Engineered for humanity. A precision tool for social welfare and mental health support.</p></div>
+        <div class="footer-col"><h3>Quick Links</h3><a href="#locator" class="footer-link">Find Help</a><a href="#hub" class="footer-link">Service Hub</a><a href="#mental" class="footer-link">Wellness Check</a></div>
+        <div class="footer-col"><h3>Emergency Contacts</h3><div class="emergency-row"><a href="tel:100" class="foot-em-btn"><i class="fa-solid fa-shield-halved"></i> Police</a><a href="tel:108" class="foot-em-btn"><i class="fa-solid fa-truck-medical"></i> Ambulance</a><a href="tel:18005990019" class="foot-em-btn"><i class="fa-solid fa-brain"></i> Support</a></div></div>
+    </div>
+    <div class="bottom-bar"><div>© 2026 PeopleConnect.</div><div class="community-line">Built with <span style="color:var(--danger)">❤️</span> for the Community</div></div>
+</footer>
+
+<div id="chat-btn" onclick="toggleChat()"><i class="fa-solid fa-message"></i><div class="notif-badge"></div></div>
+<div id="chat-interface"><div class="chat-head"><span>PC Assistant</span><i class="fa-solid fa-xmark" onclick="toggleChat()" style="cursor:pointer"></i></div><div class="chat-body" id="chat-box"><div class="chat-bubble bot-msg">Hello! Ask me about Food, Shelter, or Support.</div></div><div class="chat-foot"><input type="text" id="chat-input" placeholder="Type a message..." onkeypress="checkEnter(event)"><i class="fa-solid fa-paper-plane" style="color:var(--primary); cursor:pointer;" onclick="sendMsg()"></i></div></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

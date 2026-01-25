@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeopleConnect | Elite Support Ecosystem</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<style>
+/* ================= ROOT VARIABLES ================= */
+:root{
+  --primary: #8b5cf6;
+  --primary-dark: #7c3aed;
+  --glow: rgba(139,92,246,0.35);
+  --bg: #09090b;
+  --card: rgba(30,30,35,0.7);
+  --glass: rgba(255, 255, 255, 0.05);
+  --border: rgba(255,255,255,0.1);
+  --text: #fafafa;
+  --muted: #a1a1aa;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --medical: #6366f1;
+  --coffee: #6F4E37;
+  --coffee-light: #8B6248;
+}
+
+body.contrast{
+  --bg: #ffffff;
+  --card: #f4f4f5;
+  --border: #e4e4e7;
+  --text: #18181b;
+  --muted: #52525b;
+  --primary: #4f46e5;
+  --glow: rgba(79, 70, 229, 0.2);
+}
+
+/* DEEP WORK FOCUS MODE OVERRIDES */
+body.deep-focus-mode {
+    --bg: #050505;
+}
+body.deep-focus-mode nav, 
+body.deep-focus-mode footer,
+body.deep-focus-mode #hero-header,
+body.deep-focus-mode #locator,
+body.deep-focus-mode #hub,
+body.deep-focus-mode .news-section,
+body.deep-focus-mode #chat-btn,
+body.deep-focus-mode #bmc-btn {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
+body.deep-focus-mode #deepwork {
+    margin-top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  background-image:
+    radial-gradient(at 0% 0%,rgba(139,92,246,.15),transparent 50%),
+    radial-gradient(at 100% 100%,rgba(236,72,153,.1),transparent 50%);
+  background-attachment:fixed;
+  transition: background 0.3s, color 0.3s;
+  overflow-x: hidden;
+}
+
+/* ================= NAV ================= */
+nav{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  width:95%;max-width:1200px;
+  background:rgba(9,9,11,.9);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--border);
+  padding:10px 20px;border-radius:100px;
+  display:flex;justify-content:space-between;align-items:center;
+  z-index:1000;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+  transition: 0.5s;
+}
+.logo{font-size:1.4rem;font-weight:800;letter-spacing:-0.5px;}
+.logo span{color:var(--primary)}
+
+.nav-links { display:flex; align-items:center; gap:20px; }
+.nav-links a.link {color:var(--muted);text-decoration:none;font-weight:600;font-size:0.9rem;transition:0.3s;}
+.nav-links a.link:hover{color:var(--primary)}
+
+.nav-emergency { display: flex; gap: 10px; align-items: center; border-left: 1px solid var(--border); padding-left: 20px; margin-left: 10px; }
+.em-icon { 
+    color: var(--text); font-size: 1.1rem; width: 35px; height: 35px; 
+    border-radius: 50%; background: rgba(255,255,255,0.1); 
+    display: flex; align-items: center; justify-content: center; 
+    transition: 0.3s; text-decoration: none;
+}
+.em-icon:hover { transform: scale(1.1); }
+.em-icon.police:hover { background: #3b82f6; }
+.em-icon.ambulance:hover { background: #ef4444; }
+.em-icon.support:hover { background: #ec4899; }
+
+.toggle-btn{width:35px;height:35px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);}
+
+/* LOGIN BUTTON IN NAV */
+.login-btn-nav {
+    background: var(--primary); color: white; border: none; padding: 10px 24px; 
+    border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s;
+    font-size: 0.9rem; display: flex; align-items: center; gap: 8px;
+}
+.login-btn-nav:hover { box-shadow: 0 0 15px var(--glow); transform: translateY(-2px); }
+
+/* User Profile & Admin (Hidden by default) */
+.user-profile-nav {
+    display: none; align-items: center; gap: 10px; background: rgba(255,255,255,0.1);
+    padding: 5px 15px 5px 5px; border-radius: 50px; cursor: pointer; transition: 0.3s;
+}
+.user-profile-nav:hover { background: rgba(255,255,255,0.15); }
+.user-avatar { width: 32px; height: 32px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #000; font-size: 0.9rem; text-transform: uppercase; }
+
+/* Admin Badge Style */
+.admin-badge {
+    background: #f59e0b !important;
+    color: black !important;
+}
+
+/* ================= MODALS ================= */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+    z-index: 5000; display: none; align-items: center; justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+.auth-box {
+    width: 450px; background: #18181b; border: 1px solid var(--border);
+    border-radius: 24px; padding: 40px; position: relative; overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-box { 
+    width: 420px;
+    background: #111113; 
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- ADMIN PANEL STYLES --- */
+.admin-box {
+    width: 90%; max-width: 1000px; height: 80vh;
+    background: #111113; border: 1px solid var(--border);
+    border-radius: 24px; padding: 0; position: relative;
+    display: flex; flex-direction: column;
+    animation: slideUp 0.4s ease;
+}
+.admin-header {
+    padding: 25px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.02);
+}
+.admin-content { padding: 30px; overflow-y: auto; }
+.data-table {
+    width: 100%; border-collapse: collapse; margin-top: 20px;
+}
+.data-table th {
+    text-align: left; padding: 15px; color: var(--muted); font-size: 0.85rem;
+    border-bottom: 1px solid var(--border); text-transform: uppercase;
+}
+.data-table td {
+    padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.95rem; color: var(--text);
+}
+.data-table tr:hover { background: rgba(255,255,255,0.02); }
+.status-pill {
+    padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;
+}
+.status-good { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+.status-bad { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+.tab-btn {
+    background: transparent; border: none; color: var(--muted); padding: 10px 20px;
+    cursor: pointer; font-weight: 600; border-bottom: 2px solid transparent;
+}
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+.download-btn {
+    background: #27272a; color: white; border: 1px solid var(--border);
+    padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+    transition: 0.3s; display: flex; align-items: center; gap: 8px;
+}
+.download-btn:hover { background: var(--primary); border-color: var(--primary); }
+
+.auth-close { position: absolute; top: 20px; right: 20px; color: var(--muted); cursor: pointer; font-size: 1.2rem; transition: 0.3s; z-index: 10; }
+.auth-close:hover { color: white; transform: rotate(90deg); }
+
+.auth-header { text-align: center; margin-bottom: 30px; }
+.auth-header h2 { font-size: 2rem; color: var(--text); margin-bottom: 5px; }
+.auth-header p { color: var(--muted); font-size: 0.9rem; }
+
+.profile-header { 
+    background: linear-gradient(180deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%); 
+    padding: 50px 30px 30px; text-align: center; border-bottom: 1px solid var(--border);
+}
+.profile-avatar-lg { 
+    width: 90px; height: 90px; background: var(--primary); color: white; 
+    border-radius: 50%; font-size: 2.2rem; font-weight: 800; 
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; 
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); text-transform: uppercase; border: 4px solid #111113;
+}
+
+.profile-body { padding: 25px; display: flex; flex-direction: column; gap: 12px; }
+
+.perf-card { 
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+    border-radius: 18px; padding: 16px 20px; display: flex; align-items: center; gap: 15px; transition: 0.3s;
+    cursor: pointer; position: relative;
+}
+.perf-card:hover { background: rgba(255,255,255,0.06); border-color: var(--primary); }
+.perf-card::after { content: '\f054'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 20px; color: var(--muted); font-size: 0.8rem; }
+
+.perf-icon { 
+    width: 44px; height: 44px; background: rgba(139,92,246,0.1); border-radius: 12px; 
+    color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; 
+}
+
+/* User History View inside Profile */
+.history-view { display: none; padding: 25px; }
+.history-item { 
+    background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-bottom: 10px; border: 1px solid var(--border);
+}
+.history-date { font-size: 0.75rem; color: var(--muted); margin-bottom: 5px; }
+.history-val { font-size: 1rem; color: var(--text); }
+.back-btn { background: transparent; border: none; color: var(--muted); cursor: pointer; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
+.back-btn:hover { color: var(--text); }
+
+.logout-btn { 
+    width: 100%; padding: 15px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); 
+    color: #ef4444; border-radius: 14px; cursor: pointer; font-weight: 700; margin-top: 15px; 
+    transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.logout-btn:hover { background: var(--danger); color: white; }
+
+.auth-form { display: flex; flex-direction: column; gap: 20px; }
+.input-group { position: relative; }
+.input-group input {
+    width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    padding: 15px; border-radius: 12px; color: white; outline: none; transition: 0.3s;
+}
+.input-group input:focus { border-color: var(--primary); background: rgba(139,92,246,0.05); }
+.input-group label {
+    position: absolute; left: 15px; top: 15px; color: var(--muted); pointer-events: none;
+    transition: 0.3s; font-size: 0.9rem;
+}
+.input-group input:focus ~ label,
+.input-group input:not(:placeholder-shown) ~ label {
+    top: -10px; left: 10px; font-size: 0.75rem; background: #18181b; padding: 0 5px; color: var(--primary);
+}
+
+.auth-submit {
+    background: var(--primary); color: white; border: none; padding: 15px;
+    border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.auth-submit:hover { background: var(--primary-dark); transform: scale(1.02); }
+
+.auth-error {
+    color: #ef4444; background: rgba(239,68,68,0.1); padding: 10px; border-radius: 8px;
+    font-size: 0.85rem; text-align: center; display: none; margin-bottom: 15px; border: 1px solid rgba(239,68,68,0.2);
+}
+
+.auth-switch { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+.auth-switch span { color: var(--primary); cursor: pointer; font-weight: 600; }
+
+.form-container { display: none; animation: fadeIn 0.4s ease; }
+.form-container.active { display: block; }
+.social-login { display: flex; gap: 10px; margin-top: 20px; }
+.social-btn { flex: 1; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; font-size: 0.9rem; }
+.social-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--muted); }
+
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes slideUp { from{transform:translateY(50px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+/* ================= HERO & SECTIONS ================= */
+header{
+  padding:180px 20px 80px; text-align:center; position:relative;
+  background:url('https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+}
+header#hero-header::before{ content:'';position:absolute;inset:0; background:linear-gradient(to bottom,rgba(9,9,11,.8),var(--bg)); }
+.hero{position:relative;max-width:800px;margin:auto;z-index:2;}
+.hero h1{font-size:clamp(3rem,7vw,5rem);font-weight:800;line-height:1.1;letter-spacing:-2px;}
+.hero p{color:var(--muted);font-size:1.2rem;margin:24px 0 36px;}
+.cta-btn{display:inline-block;background:var(--primary);color:#fff;padding:16px 36px;border-radius:100px;font-weight:700;text-decoration:none;transition:0.3s;box-shadow:0 10px 25px -5px var(--glow); cursor: pointer;}
+.cta-btn:hover{transform:translateY(-3px); box-shadow:0 20px 35px -5px var(--glow);}
+
+.geo-section { max-width:1000px; margin: 40px auto; padding: 0 20px; }
+.geo-card { background: var(--card); border: 1px solid var(--border); border-radius: 30px; padding: 40px; text-align: center; position: relative; overflow: hidden; }
+.geo-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 12px 24px; border-radius: 50px; cursor: pointer; font-size: 1rem; font-weight: 600; transition: 0.3s; margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; }
+.geo-btn:hover { background: var(--primary); color: white; }
+
+.radar-loader { display: none; width: 100px; height: 100px; margin: 30px auto; border-radius: 50%; border: 2px solid var(--primary); position: relative; }
+.radar-loader::before { content:''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; border-radius: 50%; background: var(--primary); opacity: 0.3; animation: ping 1.5s infinite; }
+@keyframes ping { 0% { transform: translate(-50%, -50%) scale(0.1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; } }
+.local-results { display: none; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; text-align: left; }
+.loc-card { background: #18181b; border: 1px solid var(--border); border-radius: 20px; padding: 25px; transition: 0.3s; animation: fadeIn 0.5s ease; position: relative; display: flex; flex-direction: column; }
+.loc-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); }
+.loc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+.loc-badge { font-size: 0.7rem; font-weight: 800; padding: 5px 12px; border-radius: 50px; text-transform: uppercase; }
+.badge-open { background: var(--success); color: #000; }
+.badge-close { background: var(--warning); color: #000; }
+.badge-medical { background: var(--medical); color: #fff; }
+.loc-card h3 { font-size: 1.2rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+.loc-dist { color: var(--primary); font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; display: block; }
+.loc-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 20px; line-height: 1.5; flex-grow: 1; }
+.loc-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: none; color: white; border-radius: 12px; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; transition: 0.3s; }
+.loc-btn:hover { background: var(--primary); }
+
+.pulse-section { max-width:1000px; margin: 60px auto; padding: 0 20px; }
+.pulse-card { background: var(--card); border: 1px solid var(--border); border-radius: 30px; padding: 30px; display: flex; align-items: center; gap: 30px; box-shadow: 0 20px 50px -20px rgba(0,0,0,0.5); flex-wrap: wrap; }
+.pulse-info { flex: 1; min-width: 250px; }
+.pulse-info h2 { font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+.live-dot { width: 10px; height: 10px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); animation: blink 2s infinite; }
+.pulse-numbers { display: flex; gap: 30px; margin-top: 15px; }
+.p-stat h3 { font-size: 2rem; color: var(--primary); line-height: 1; }
+.p-stat p { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; margin-top: 5px; }
+.graph-visualizer { flex: 2; height: 80px; display: flex; align-items: center; gap: 6px; min-width: 250px; }
+.bar { flex: 1; background: var(--primary); border-radius: 10px; opacity: 0.6; animation: bounce 1s infinite ease-in-out; }
+.bar:nth-child(odd) { background: #ec4899; }
+@keyframes bounce { 0%, 100% { height: 10%; } 50% { height: 80%; } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.news-section { margin-top: 100px; overflow: hidden; padding: 20px 0; background: linear-gradient(to right, rgba(9,9,11,0), rgba(24,24,27,0.5), rgba(9,9,11,0)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.news-container { width: 100%; overflow: hidden; white-space: nowrap; position: relative; }
+.news-track { display: inline-block; animation: scroll 40s linear infinite; }
+.news-track:hover { animation-play-state: paused; }
+.news-card { display: inline-block; width: 350px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-right: 20px; white-space: normal; vertical-align: top; transition: 0.3s; cursor: pointer; }
+.news-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px -10px var(--glow); }
+.news-img { width: 100%; height: 160px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; }
+.news-badge { font-size: 0.7rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+.news-title { font-size: 1.1rem; font-weight: 700; margin: 8px 0; line-height: 1.4; }
+.news-date { font-size: 0.8rem; color: var(--muted); }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.container{max-width:1200px;margin:auto;padding:0 20px}
+section{margin-top:100px}
+.section-head{text-align: center; margin-bottom: 50px;}
+.section-head h2{font-size:2.5rem;font-weight:800;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:35px;transition:.3s; position: relative; overflow: hidden;}
+.card:hover{transform:translateY(-8px);border-color:var(--primary);box-shadow:0 20px 40px -20px var(--glow);}
+.card i{font-size:2.2rem;color:var(--primary);margin-bottom:20px;}
+.large{grid-column:span 2}
+.trust-badge { position: absolute; top: 15px; right: 15px; font-size: 0.7rem; font-weight: 700; padding: 6px 12px; border-radius: 50px; border: 1px solid currentColor; display: flex; align-items: center; gap: 5px; }
+.verify-c { color: var(--success); background: rgba(16, 185, 129, 0.1); }
+.verify-g { color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
+.verify-s { color: var(--primary); background: rgba(139, 92, 246, 0.1); }
+
+.survey-box { background: var(--card); border: 1px solid var(--border); border-radius: 40px; padding: 60px 40px; margin-top: 100px; position: relative; overflow: hidden; min-height: 450px; display: flex; flex-direction: column; }
+.survey-welcome { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; animation: fadeIn 0.5s ease; }
+.survey-icon-float { font-size: 4rem; color: var(--primary); margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
+.survey-welcome h2 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; }
+.survey-welcome p { color: var(--muted); max-width: 500px; margin-bottom: 30px; font-size: 1.1rem; }
+.survey-stats { display: flex; gap: 15px; margin-bottom: 30px; }
+.stat-chip { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; color: var(--text); }
+.survey-ui { display: none; width: 100%; animation: slideUp 0.4s ease; }
+.progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 40px; }
+.progress-fill { height: 100%; background: var(--primary); border-radius: 10px; width: 0%; transition: 0.5s ease; box-shadow: 0 0 15px var(--glow); }
+.question-step { display: none; }
+.question-step.active { display: block; animation: fadeIn 0.4s ease; }
+.question-step h3 { font-size: 1.8rem; margin-bottom: 25px; font-weight: 700; }
+.option-btn { width: 100%; text-align: left; padding: 20px 25px; margin-bottom: 15px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 18px; color: var(--text); font-size: 1.1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: space-between; font-weight: 500; }
+.option-btn:hover { background: rgba(139, 92, 246, 0.1); border-color: var(--primary); transform: translateX(5px); }
+.option-btn.selected { background: var(--primary); border-color: var(--primary); color: white; }
+.rating-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.rating-num { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 12px; cursor: pointer; transition: 0.2s; font-weight: 700; }
+.rating-num:hover, .rating-num.selected { background: var(--primary); color: white; transform: scale(1.1); }
+.survey-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 15px; padding: 20px; color: white; font-size: 1rem; min-height: 120px; resize: none; outline: none; margin-top: 10px; }
+.survey-input:focus { border-color: var(--primary); }
+.survey-nav { display: flex; justify-content: space-between; margin-top: 40px; }
+.nav-btn { padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: 600; border: none; transition: 0.3s; }
+.btn-prev { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-next { background: var(--primary); color: white; }
+.btn-next:disabled { opacity: 0.5; cursor: not-allowed; }
+.survey-results { display: none; text-align: center; animation: fadeIn 0.6s ease; padding-top: 20px; }
+.score-circle { width: 200px; height: 200px; border-radius: 50%; border: 10px solid var(--card); display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 0 auto 30px; position: relative; background: conic-gradient(var(--primary) 0%, rgba(255,255,255,0.05) 0%); }
+.score-inner { position: absolute; width: 160px; height: 160px; background: var(--bg); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.score-val { font-size: 3.5rem; font-weight: 800; line-height: 1; }
+.score-label { font-size: 0.9rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.sound-section { background: var(--card); border: 1px solid var(--border); border-radius: 30px; padding: 40px; text-align: center; margin-top: 80px; }
+.sound-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
+.sound-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 20px; border-radius: 20px; width: 120px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--text); }
+.sound-btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-5px); border-color: var(--primary); }
+.sound-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.breathe-box{ background:var(--card);border:1px solid var(--border);border-radius:40px;padding:80px 20px;text-align:center; background-image: radial-gradient(circle at center, rgba(139,92,246,0.1), transparent 70%); }
+.breath-circle{ width:200px;height:200px;margin:40px auto;border-radius:50%; background:conic-gradient(from 0deg, var(--primary), transparent); box-shadow:0 0 60px var(--glow); display:flex;align-items:center;justify-content:center; position: relative; animation-play-state: paused; }
+.breath-circle.running { animation: spin 8s linear infinite, pulse 8s ease-in-out infinite; }
+.breath-circle::after { content:''; position: absolute; inset: 5px; background: var(--bg); border-radius: 50%; }
+.breath-text { position: absolute; z-index: 2; font-weight: 800; font-size: 1.5rem; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100%{transform: scale(1);} 50%{transform: scale(1.3);} }
+.breathe-control { margin-top: 30px; padding: 12px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; border: none; background: var(--primary); color: white; transition: 0.3s; }
+.breathe-control:hover { transform: scale(1.05); }
+.breathe-results { display: none; margin-top: 20px; padding: 20px; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); border-radius: 20px; color: var(--success); animation: fadeIn 0.5s ease; }
+
+.grounding-box { background: var(--card); border: 1px solid var(--border); border-radius: 40px; padding: 60px 40px; margin-top: 80px; text-align: center; background-image: radial-gradient(circle at center, rgba(255,255,255,0.02), transparent 70%); }
+.ground-step { display: none; animation: fadeIn 0.5s ease; }
+.ground-step.active { display: block; }
+.ground-icon { font-size: 3rem; color: var(--primary); margin-bottom: 20px; display: inline-block; animation: float 3s infinite; }
+.ground-count { font-size: 4rem; font-weight: 800; color: rgba(255,255,255,0.1); line-height: 1; margin-bottom: -20px; display: block; }
+.ground-title { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+.ground-desc { color: var(--muted); font-size: 1.1rem; margin-bottom: 30px; }
+.ground-btn { padding: 14px 35px; border-radius: 50px; background: var(--primary); color: white; border: none; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+.ground-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--glow); }
+
+.journal-section { background: var(--card); border: 1px solid var(--border); border-radius: 30px; padding: 40px; margin-top: 80px; }
+.journal-area { width: 100%; height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 15px; padding: 20px; color: var(--text); font-size: 1rem; margin-top: 20px; resize: none; outline: none; }
+.journal-area:focus { border-color: var(--primary); }
+.mood-bar { display: flex; gap: 15px; margin-top: 15px; justify-content: center; }
+.mood-btn { font-size: 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 10px; width: 50px; height: 50px; cursor: pointer; transition: 0.3s; }
+.mood-btn:hover, .mood-btn.selected { background: var(--primary); transform: scale(1.1); }
+
+.anon-wall { margin-top: 100px; padding: 80px 20px; text-align: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.anon-title { color: var(--primary); margin-bottom: 30px; font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.quote-box { font-size: 1.8rem; font-style: italic; color: #fff; font-family: 'Playfair Display', serif; opacity: 0.9; transition: opacity 0.5s; }
+
+#chat-btn { position: fixed; bottom: 40px; right: 30px; width: 65px; height: 65px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.6rem; cursor: pointer; z-index: 3000; box-shadow: 0 10px 40px var(--glow); transition: 0.3s; }
+#chat-btn:hover { transform: scale(1.1); }
+.notif-badge { position: absolute; top: 0; right: 0; width: 20px; height: 20px; background: #ef4444; border-radius: 50%; border: 2px solid var(--bg); }
+
+/* BMC BUTTON ON LEFT */
+#bmc-btn {
+    position: fixed; bottom: 40px; left: 30px; width: 65px; height: 65px; 
+    background: #FFDD00; border-radius: 50%; display: flex; align-items: center; 
+    justify-content: center; color: #000; font-size: 1.6rem; cursor: pointer; 
+    z-index: 3000; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: 0.3s;
+    text-decoration: none; border: 2px solid #000;
+}
+#bmc-btn:hover { transform: scale(1.1) rotate(5deg); }
+
+#chat-interface { position: fixed; bottom: 120px; right: 30px; width: 360px; height: 550px; background: #18181b; border: 1px solid var(--border); border-radius: 24px; display: none; flex-direction: column; overflow: hidden; z-index: 3000; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+.chat-head { background: var(--primary); padding: 20px; display: flex; justify-content: space-between; align-items: center; color: white; font-weight: 700; }
+.chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #09090b; }
+.chat-bubble { padding: 12px 18px; border-radius: 18px; font-size: 0.95rem; max-width: 85%; }
+.bot-msg { background: #27272a; align-self: flex-start; color: #d4d4d8; }
+.user-msg { background: var(--primary); align-self: flex-end; color: white; }
+.chat-foot { padding: 15px; border-top: 1px solid #27272a; display: flex; gap: 10px; background: #18181b; }
+.chat-foot input { background: transparent; border: none; color: white; flex: 1; outline: none; }
+
+footer { margin-top: 80px; padding: 60px 20px; background: var(--card); border-top: 1px solid var(--border); }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: auto; text-align: left; }
+.footer-col h3 { color: var(--primary); margin-bottom: 20px; }
+.footer-link { display: block; color: var(--muted); margin-bottom: 10px; text-decoration: none; transition: 0.3s; }
+.footer-link:hover { color: var(--text); }
+.emergency-row { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+.foot-em-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+.foot-em-btn:hover { background: var(--danger); border-color: var(--danger); color: white; }
+.bottom-bar { text-align: center; margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
+.community-line { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font-weight: 600; color: var(--text); }
+
+/* ================= DEEP WORK CSS ================= */
+.deep-work-section {
+    max-width: 1200px; margin: 40px auto; padding: 0 20px;
+}
+.focus-container {
+    display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 30px;
+}
+.focus-timer-box {
+    background: var(--card); border: 1px solid var(--border); border-radius: 30px;
+    padding: 40px 30px; text-align: center; display: flex; flex-direction: column;
+    justify-content: center; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    position: relative; overflow: visible;
+}
+.timer-progress-bar {
+    position: absolute; top: 0; left: 0; height: 6px; width: 0%;
+    background: var(--primary); transition: width 1s linear;
+}
+.timer-status-badge {
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; color: var(--muted);
+    display: inline-block; margin-bottom: 10px; align-self: center;
+}
+.status-focus { color: var(--primary); border-color: var(--primary); background: rgba(139, 92, 246, 0.1); }
+.status-break { color: var(--success); border-color: var(--success); background: rgba(16, 185, 129, 0.1); }
+.timer-display {
+    font-size: clamp(3.5rem, 6vw, 5.5rem); font-weight: 800; font-family: monospace;
+    line-height: 1.2; color: var(--text); text-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+    margin: 15px 0;
+}
+.coffee-cup {
+    position: relative; width: 100px; height: 80px;
+    border: 4px solid #a1a1aa; border-radius: 0 0 50px 50px;
+    background: transparent; margin: 10px auto; overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+.coffee-handle {
+    position: absolute; right: -28px; top: 10px; width: 25px; height: 35px;
+    border: 4px solid #a1a1aa; border-radius: 0 20px 20px 0;
+}
+.coffee-liquid {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+    background: var(--coffee); transition: height 1s linear;
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.5);
+}
+.steam-container { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; opacity: 0; transition: opacity 0.5s; }
+.steam { width: 5px; height: 20px; background: rgba(255,255,255,0.4); border-radius: 10px; filter: blur(2px); animation: steamRise 2s infinite; }
+.steam:nth-child(2) { animation-delay: 0.5s; height: 25px; }
+.steam:nth-child(3) { animation-delay: 1s; }
+@keyframes steamRise { 0% { transform: translateY(0); opacity: 0.5; } 100% { transform: translateY(-20px); opacity: 0; } }
+.focus-timer-box.active .steam-container { opacity: 1; }
+.timer-settings {
+    display: flex; gap: 20px; justify-content: center; margin-bottom: 20px;
+}
+.setting-grp { display: flex; flex-direction: column; align-items: center; }
+.setting-grp label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; }
+.time-input {
+    background: transparent; border: none; border-bottom: 2px solid var(--border);
+    color: var(--text); font-size: 1.2rem; font-weight: 700; width: 60px; text-align: center;
+    padding: 5px; transition: 0.3s; outline: none;
+}
+.time-input:focus { border-color: var(--primary); }
+.timer-controls { display: flex; gap: 15px; justify-content: center; }
+.btn-focus { 
+    padding: 14px 30px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 1rem;
+}
+.btn-start { background: var(--primary); color: white; box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+.btn-start:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(139, 92, 246, 0.5); }
+@keyframes pulse-btn { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+.btn-start.active { animation: pulse-btn 2s infinite; }
+.btn-reset { background: rgba(255,255,255,0.05); color: var(--text); border: 1px solid var(--border); }
+.btn-reset:hover { background: rgba(255,255,255,0.1); }
+.focus-mixer {
+    background: #18181b; border: 1px solid var(--border); border-radius: 30px;
+    padding: 30px; display: flex; flex-direction: column; gap: 25px; justify-content: center;
+}
+.mixer-track { display: flex; align-items: center; gap: 20px; }
+.mixer-icon { width: 40px; text-align: center; color: var(--muted); font-size: 1.2rem; }
+.mixer-slider { 
+    flex: 1; -webkit-appearance: none; height: 6px; background: rgba(255,255,255,0.1); 
+    border-radius: 5px; outline: none; 
+}
+.mixer-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+    background: var(--primary); cursor: pointer; box-shadow: 0 0 10px var(--primary);
+    transition: 0.2s;
+}
+.mixer-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.focus-notes {
+    background: var(--card); border: 1px solid var(--border); border-radius: 30px;
+    padding: 30px; display: flex; flex-direction: column;
+}
+.distraction-pad {
+    width: 100%; flex: 1; min-height: 250px;
+    background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 15px;
+    padding: 20px; color: var(--text); font-size: 1rem; resize: none; outline: none;
+    margin-top: 15px; font-family: 'Courier New', monospace; line-height: 1.6;
+}
+.distraction-pad:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(139,92,246,0.1); }
+
+@media(max-width:900px){
+  .grid, .pulse-card, .local-results, .sound-grid, .focus-container {grid-template-columns:1fr}
+  .large{grid-column:span 1}
+  .graph-visualizer { display: none; }
+  .nav-emergency { display: none; } 
+  .profile-box, .auth-box, .admin-box { width: 90%; }
+}
+</style>
+</head>
+
+<body>
+
+<a href="https://buymeacoffee.com/prakhar_codess" target="_blank" id="bmc-btn" title="Buy Me a Coffee">
+    <i class="fa-solid fa-mug-hot"></i>
+</a>
+
+<div id="auth-modal" class="modal-overlay">
+    <div class="auth-box">
+        <i class="fa-solid fa-xmark auth-close" onclick="closeAuth()"></i>
+        <div id="login-form" class="form-container active">
+            <div class="auth-header"><h2>Welcome Back</h2><p>Login to access tools</p></div>
+            <div id="login-error" class="auth-error">Incorrect password. Please try again.</div>
+            <form class="auth-form" onsubmit="handleLogin(event)">
+                <div class="input-group"><input type="email" id="login-email" required placeholder=" "><label>Email</label></div>
+                <div class="input-group"><input type="password" id="login-pass" required placeholder=" "><label>Password</label></div>
+                <button type="submit" class="auth-submit" id="login-btn"><span>Log In</span></button>
+            </form>
+            <div class="social-login">
+                <div class="social-btn" onclick="handleSocialLogin('Google')"><i class="fa-brands fa-google"></i> Google</div>
+                <div class="social-btn" onclick="handleSocialLogin('GitHub')"><i class="fa-brands fa-github"></i> GitHub</div>
+            </div>
+            <div class="auth-switch">New here? <span onclick="switchAuth('register')">Create Account</span></div>
+        </div>
+        <div id="register-form" class="form-container">
+            <div class="auth-header"><h2>Join Us</h2><p>Create your account</p></div>
+            <form class="auth-form" onsubmit="handleRegister(event)">
+                <div class="input-group"><input type="text" id="reg-name" required placeholder=" "><label>Full Name</label></div>
+                <div class="input-group"><input type="email" id="reg-email" required placeholder=" "><label>Email</label></div>
+                <div class="input-group"><input type="password" id="reg-pass" required placeholder=" "><label>Password</label></div>
+                <button type="submit" class="auth-submit" id="reg-btn"><span>Sign Up</span></button>
+            </form>
+            <div class="auth-switch">Already have an account? <span onclick="switchAuth('login')">Log In</span></div>
+        </div>
+    </div>
+</div>
+
+<div id="profile-modal" class="modal-overlay">
+    <div class="profile-box">
+        <i class="fa-solid fa-xmark auth-close" onclick="closeProfile()"></i>
+        <div class="profile-header">
+            <div class="profile-avatar-lg" id="p-avatar">JD</div>
+            <h2 id="p-name" style="letter-spacing: -0.5px;">John Doe</h2>
+            <div style="display: inline-block; margin-top: 8px; padding: 4px 12px; background: rgba(255,255,255,0.05); border-radius: 50px; font-size: 0.75rem; color: var(--muted);">Member since 2026</div>
+        </div>
+        
+        <div class="profile-body" id="profile-main-view">
+            <div class="perf-card" onclick="viewUserHistory('surveys')">
+                <div class="perf-icon"><i class="fa-solid fa-wave-square"></i></div>
+                <div>
+                    <p style="color:var(--muted); font-size:0.75rem; text-transform: uppercase; letter-spacing: 1px;">Stress Assessment</p>
+                    <h4 style="font-size:1rem; font-weight: 600;" id="p-mood">Not assessed yet</h4>
+                </div>
+            </div>
+            <div class="perf-card" onclick="viewUserHistory('journals')">
+                <div class="perf-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                <div>
+                    <p style="color:var(--muted); font-size:0.75rem; text-transform: uppercase; letter-spacing: 1px;">Reflection Log</p>
+                    <h4 style="font-size:1rem; font-weight: 600;" id="p-journal">0 saved entries</h4>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
+        </div>
+
+        <div class="history-view" id="profile-history-view">
+            <button class="back-btn" onclick="backToProfileMain()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <h3 id="history-title" style="margin-bottom: 15px; font-size: 1.2rem;">History</h3>
+            <div id="history-content" style="max-height: 300px; overflow-y: auto;">
+                </div>
+        </div>
+    </div>
+</div>
+
+<div id="admin-modal" class="modal-overlay">
+    <div class="admin-box">
+        <div class="admin-header">
+            <div style="display:flex; gap:20px;">
+                <button class="tab-btn active" onclick="switchAdminTab('users')">All Users</button>
+                <button class="tab-btn" onclick="switchAdminTab('surveys')">Survey Data</button>
+                <button class="tab-btn" onclick="switchAdminTab('journals')">Journal Entries</button>
+            </div>
+            <div style="display:flex; gap:15px; align-items:center;">
+                <button class="download-btn" onclick="downloadAdminReport()"><i class="fa-solid fa-file-pdf"></i> Download Database</button>
+                <i class="fa-solid fa-xmark auth-close" style="position:relative; top:0; right:0;" onclick="closeAdmin()"></i>
+            </div>
+        </div>
+        <div class="admin-content" id="admin-view">
+            </div>
+    </div>
+</div>
+
+<nav>
+  <div class="logo">PEOPLE<span>CONNECT</span></div>
+  <div class="nav-links">
+    <a href="#deepwork" class="link">Deep Work</a>
+    <a href="#locator" class="link">Nearby</a>
+    <a href="#hub" class="link">Hub</a>
+    <a href="#mental" class="link">Wellness</a>
+    <div class="nav-emergency">
+        <a href="tel:100" class="em-icon police" title="Police"><i class="fa-solid fa-shield-halved"></i></a>
+        <a href="tel:108" class="em-icon ambulance" title="Ambulance"><i class="fa-solid fa-truck-medical"></i></a>
+        <a href="tel:18005990019" class="em-icon support" title="Support"><i class="fa-solid fa-brain"></i></a>
+    </div>
+    <span class="toggle-btn" onclick="toggleTheme()"><i class="fa-solid fa-circle-half-stroke"></i></span>
+    <button id="nav-login-btn" class="login-btn-nav" onclick="openAuth()"><i class="fa-solid fa-user"></i> Login</button>
+    <button id="nav-admin-btn" class="login-btn-nav admin-badge" style="display:none;" onclick="openAdmin()"><i class="fa-solid fa-lock"></i> Admin Panel</button>
+    <div id="nav-user-profile" class="user-profile-nav" onclick="openProfile()">
+        <div class="user-avatar" id="nav-avatar">JD</div>
+        <span style="font-size:0.9rem; font-weight:600;" id="nav-name">John Doe</span>
+    </div>
+  </div>
+</nav>
+
+<header id="hero-header">
+  <div class="hero">
+    <h1>Care without<br>Boundaries.</h1>
+    <p>Hyper-local support, real-time crisis aid, and clinical-grade mental health intelligence.</p>
+    <button class="cta-btn" onclick="checkAuth('geo')">Locate Services Near Me</button>
+  </div>
+</header>
+
+<section id="deepwork" class="deep-work-section">
+    <div class="section-head">
+        <h2>Deep Work Zone</h2>
+        <p>Distraction-free environment for academic focus.</p>
+    </div>
+    <div class="focus-container">
+        
+        <div class="focus-timer-box" id="focus-box">
+            <div class="timer-progress-bar" id="timer-bar"></div>
+            
+            <span id="timer-status" class="timer-status-badge">Ready to Focus?</span>
+            
+            <div style="position:relative; width:100px; margin:0 auto;">
+                <div class="steam-container">
+                    <div class="steam"></div><div class="steam"></div><div class="steam"></div>
+                </div>
+                <div class="coffee-cup">
+                    <div class="coffee-liquid" id="coffee-liquid"></div>
+                </div>
+                <div class="coffee-handle"></div>
+            </div>
+
+            <div class="timer-display" id="timer-display">25:00</div>
+            
+            <div class="timer-settings">
+                <div class="setting-grp">
+                    <label>Work (min)</label>
+                    <input type="number" id="work-dur" class="time-input" value="25" min="1" max="90" onchange="updateDuration()">
+                </div>
+                <div class="setting-grp">
+                    <label>Break (min)</label>
+                    <input type="number" id="break-dur" class="time-input" value="5" min="1" max="30" onchange="updateDuration()">
+                </div>
+            </div>
+
+            <div class="timer-controls">
+                <button class="btn-focus btn-start" id="start-btn" onclick="toggleTimer()">Start Session</button>
+                <button class="btn-focus btn-reset" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+        </div>
+
+        <div class="focus-mixer">
+            <h3 style="margin-bottom:10px;"><i class="fa-solid fa-sliders"></i> Ambient Mixer</h3>
+            
+            <div class="mixer-track">
+                <div class="mixer-icon"><i class="fa-solid fa-cloud-rain"></i></div>
+                <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('rain', this.value)">
+            </div>
+            
+            <div class="mixer-track">
+                <div class="mixer-icon"><i class="fa-solid fa-headphones"></i></div>
+                <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('lofi', this.value)">
+            </div>
+            
+            <div class="mixer-track">
+                <div class="mixer-icon"><i class="fa-solid fa-mug-hot"></i></div>
+                <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('cafe', this.value)">
+            </div>
+            
+            <audio id="dw-rain" loop src="https://cdn.pixabay.com/download/audio/2022/05/17/audio_415277a064.mp3?filename=rain-and-thunder-16705.mp3"></audio>
+            <audio id="dw-lofi" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"></audio>
+            <audio id="dw-cafe" loop src="https://cdn.pixabay.com/download/audio/2021/09/06/audio_341e77983c.mp3?filename=people-talking-in-a-cafe-6729.mp3"></audio>
+        </div>
+
+        <div class="focus-notes">
+            <h3><i class="fa-solid fa-brain"></i> Brain Dump</h3>
+            <p style="font-size:0.8rem; color:var(--muted);">Clear mental clutter here without leaving your flow.</p>
+            <textarea class="distraction-pad" id="distract-pad" placeholder="- Email professor... 
+- Buy groceries... 
+- Idea for project..." oninput="saveDistractions()"></textarea>
+        </div>
+    </div>
+</section>
+
+<div id="locator" class="geo-section">
+    <div class="geo-card">
+        <div class="geo-header">
+            <h2><i class="fa-solid fa-location-crosshairs" style="color:var(--primary)"></i> Services Near You</h2>
+            <p style="color:var(--muted)">Enable your location to scan for verified NGOs, food banks, and shelters.</p>
+            <button class="geo-btn" onclick="checkAuth('geo')"><i class="fa-solid fa-satellite-dish"></i> Start Scanning</button>
+        </div>
+        <div id="geo-loader" class="radar-loader"></div>
+        <div id="geo-results" class="local-results">
+            <div class="loc-card">
+                <div class="loc-header"><h3><i class="fa-solid fa-utensils"></i> Community Kitchen</h3><span class="loc-badge badge-open">OPEN NOW</span></div>
+                <span class="loc-dist"><i class="fa-solid fa-location-dot"></i> 0.8 km away</span>
+                <p class="loc-desc">Free nutritional meals for students and families. No ID required.</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Community+Kitchen+Near+Me" target="_blank" class="loc-btn"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+            </div>
+            <div class="loc-card">
+                <div class="loc-header"><h3><i class="fa-solid fa-bed"></i> Night Shelter #4</h3><span class="loc-badge badge-close">CLOSING SOON</span></div>
+                <span class="loc-dist"><i class="fa-solid fa-location-dot"></i> 1.2 km away</span>
+                <p class="loc-desc">Safe sleeping arrangement for tonight. Blankets provided.</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Night+Shelter" target="_blank" class="loc-btn"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+            </div>
+             <div class="loc-card">
+                <div class="loc-header"><h3><i class="fa-solid fa-user-doctor"></i> City Clinic</h3><span class="loc-badge badge-medical">MEDICAL</span></div>
+                <span class="loc-dist"><i class="fa-solid fa-location-dot"></i> 2.5 km away</span>
+                <p class="loc-desc">Emergency first aid and counseling services available 24/7.</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=City+Clinic" target="_blank" class="loc-btn"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pulse-section">
+    <div class="pulse-card">
+        <div class="pulse-info">
+            <h2><div class="live-dot"></div> Live Activity</h2>
+            <div class="pulse-numbers"><div class="p-stat"><h3 id="req-live">12</h3><p>Requests</p></div><div class="p-stat"><h3 id="vol-live">48</h3><p>Helpers</p></div></div>
+        </div>
+        <div class="graph-visualizer">
+            <div class="bar" style="animation-duration: 0.8s"></div><div class="bar" style="animation-duration: 1.2s"></div><div class="bar" style="animation-duration: 0.5s"></div><div class="bar" style="animation-duration: 1.0s"></div>
+            <div class="bar" style="animation-duration: 0.7s"></div><div class="bar" style="animation-duration: 1.5s"></div><div class="bar" style="animation-duration: 0.9s"></div><div class="bar" style="animation-duration: 0.6s"></div>
+        </div>
+    </div>
+</div>
+
+<main class="container">
+<section id="hub">
+  <div class="section-head"><h2>Service Hub</h2><p>Categorized resources for specific needs.</p></div>
+  <div class="grid">
+    <div class="card large"><div class="trust-badge verify-c"><i class="fa-solid fa-check-circle"></i> Community Verified</div><i class="fa-solid fa-bowl-food"></i><h3>Food & NGOs</h3><p>Locate community kitchens and food aid distributions.</p></div>
+    <div class="card"><div class="trust-badge verify-g"><i class="fa-solid fa-landmark"></i> Govt Listed</div><i class="fa-solid fa-bed"></i><h3>Shelter</h3><p>Secure night shelters.</p></div>
+    <div class="card"><div class="trust-badge verify-s"><i class="fa-solid fa-graduation-cap"></i> Student Recommended</div><i class="fa-solid fa-user-doctor"></i><h3>Student Care</h3><p>Academic & psychological support.</p></div>
+    <div class="card large"><div class="trust-badge verify-c"><i class="fa-solid fa-heart-pulse"></i> Medical Verified</div><i class="fa-solid fa-hospital"></i><h3>Emergency Blood</h3><p>Real-time donor database.</p></div>
+  </div>
+</section>
+
+<section class="news-section">
+    <div class="news-container">
+        <div class="news-track">
+            <div class="news-card"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=400&auto=format&fit=crop" class="news-img" alt="Students"><div class="news-badge">RESEARCH • 2025</div><div class="news-title">Student Anxiety Levels Drop by 15%</div><div class="news-date">New findings from the Healthy Minds Study show improvement in campus mental health.</div></div>
+            <div class="news-card"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&auto=format&fit=crop" class="news-img" alt="Group"><div class="news-badge">COMMUNITY • JAN 24</div><div class="news-title">Digital Therapy Tools on the Rise</div><div class="news-date">Over 60% of students now use apps like PeopleConnect for daily support.</div></div>
+            <div class="news-card"><img src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=400&auto=format&fit=crop" class="news-img" alt="Meditation"><div class="news-badge">WELLNESS • 2025</div><div class="news-title">Resilience Training in Schools</div><div class="news-date">New curriculum focuses on emotional regulation and coping strategies.</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="sound-section">
+    <h2><i class="fa-solid fa-music" style="color:var(--primary)"></i> Calm Soundscapes</h2>
+    <p style="color:var(--muted)">Immersive audio environments for focus and relaxation.</p>
+    <div class="sound-grid">
+        <button class="sound-btn" onclick="toggleSound('rain', this)"><i class="fa-solid fa-cloud-rain"></i> Rain</button>
+        <button class="sound-btn" onclick="toggleSound('white', this)"><i class="fa-solid fa-wind"></i> White Noise</button>
+        <button class="sound-btn" onclick="toggleSound('piano', this)"><i class="fa-solid fa-music"></i> Piano</button>
+    </div>
+    <audio id="audio-rain" loop src="https://cdn.pixabay.com/download/audio/2022/05/17/audio_415277a064.mp3?filename=rain-and-thunder-16705.mp3"></audio>
+    <audio id="audio-white" loop src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_88447e769f.mp3?filename=white-noise-8142.mp3"></audio>
+    <audio id="audio-piano" loop src="https://cdn.pixabay.com/download/audio/2022/03/09/audio_c8c8a73467.mp3?filename=meditation-piano-11516.mp3"></audio>
+</section>
+
+<section id="breathe">
+    <div class="breathe-box">
+        <h2>Breathe & Ground</h2>
+        <p>Synchronize your breath to lower cortisol levels.</p>
+        <div class="breath-circle"><span class="breath-text" id="breath-txt">Ready?</span></div>
+        <button id="breath-btn" class="breathe-control" onclick="checkAuth('breathe')">Start Session</button>
+        <div id="breath-results" class="breathe-results"><h3><i class="fa-solid fa-heart-pulse"></i> Session Complete</h3><p>Great job. Your nervous system is regulating.</p></div>
+    </div>
+</section>
+
+<section id="grounding">
+    <div class="grounding-box">
+        <div id="ground-welcome"><h2 class="ground-title">Sensory Grounding (5-4-3-2-1)</h2><p class="ground-desc">A powerful technique to calm anxiety by engaging your five senses.</p><button class="ground-btn" onclick="checkAuth('ground')">Start Grounding</button></div>
+        <div id="ground-steps" style="display:none;">
+            <div class="ground-step active" id="g-step-1"><span class="ground-count">5</span><div class="ground-icon"><i class="fa-solid fa-eye"></i></div><h3 class="ground-title">Acknowledge 5 things you see</h3><button class="ground-btn" onclick="nextGround(2)">Next <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="ground-step" id="g-step-2"><span class="ground-count">4</span><div class="ground-icon"><i class="fa-solid fa-hand-holding-heart"></i></div><h3 class="ground-title">Acknowledge 4 things you touch</h3><button class="ground-btn" onclick="nextGround(3)">Next <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="ground-step" id="g-step-3"><span class="ground-count">3</span><div class="ground-icon"><i class="fa-solid fa-ear-listen"></i></div><h3 class="ground-title">Acknowledge 3 things you hear</h3><button class="ground-btn" onclick="nextGround(4)">Next <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="ground-step" id="g-step-4"><span class="ground-count">2</span><div class="ground-icon"><i class="fa-solid fa-wind"></i></div><h3 class="ground-title">Acknowledge 2 things you smell</h3><button class="ground-btn" onclick="nextGround(5)">Next <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="ground-step" id="g-step-5"><span class="ground-count">1</span><div class="ground-icon"><i class="fa-solid fa-mug-hot"></i></div><h3 class="ground-title">Acknowledge 1 thing you taste</h3><button class="ground-btn" onclick="finishGround()">Finish <i class="fa-solid fa-check"></i></button></div>
+            <div class="ground-step" id="g-step-done"><div class="ground-icon" style="color:var(--success)"><i class="fa-solid fa-seedling"></i></div><h3 class="ground-title">Grounding Complete</h3><p class="ground-desc">You have successfully centered yourself.</p><button class="ground-btn" onclick="resetGround()">Close</button></div>
+        </div>
+    </div>
+</section>
+
+<section id="journal" class="journal-section">
+    <h2><i class="fa-solid fa-book-open" style="color:var(--primary)"></i> My Day Journal</h2>
+    <div style="margin-top:20px;">
+        <p style="font-size:0.9rem; margin-bottom:10px;">How are you feeling?</p>
+        <div class="mood-bar">
+            <button class="mood-btn" onclick="selectMood('😭')">😭</button>
+            <button class="mood-btn" onclick="selectMood('😕')">😕</button>
+            <button class="mood-btn" onclick="selectMood('😐')">😐</button>
+            <button class="mood-btn" onclick="selectMood('🙂')">🙂</button>
+            <button class="mood-btn" onclick="selectMood('🤩')">🤩</button>
+        </div>
+    </div>
+    <textarea id="journal-entry" class="journal-area" placeholder="Write about your day..."></textarea>
+    <div style="display:flex; justify-content:space-between; margin-top:15px; align-items:center;">
+        <span id="entry-count" style="color:var(--muted); font-size:0.9rem;">0 entries</span>
+        <button class="geo-btn" style="margin:0; padding:10px 25px;" onclick="checkAuth('journal')">Save</button>
+    </div>
+</section>
+
+<section id="mental">
+    <div class="survey-box">
+        <div id="survey-welcome" class="survey-welcome">
+            <div class="survey-icon-float"><i class="fa-solid fa-clipboard-check"></i></div>
+            <h2 style="font-size:2.5rem; margin-bottom:10px; font-weight:800;">Wellness Assessment</h2>
+            <p style="color:var(--muted); max-width:600px; margin:0 auto 30px; font-size:1.1rem;">A comprehensive check-in for your mind and body.</p>
+            <div class="survey-stats"><span class="stat-chip"><i class="fa-solid fa-list-ol"></i> 8 Questions</span><span class="stat-chip"><i class="fa-solid fa-clock"></i> 3 Minutes</span><span class="stat-chip"><i class="fa-solid fa-user-secret"></i> Anonymous</span></div>
+            <button class="cta-btn" style="padding:15px 40px; font-size:1.1rem; margin-top: 20px;" onclick="checkAuth('survey')">Start Check-In</button>
+        </div>
+        <div id="survey-ui" class="survey-ui">
+            <div class="progress-container"><div class="progress-fill" id="survey-fill"></div></div>
+            <div id="question-wrapper"></div>
+            <div class="survey-nav"><button class="nav-btn btn-prev" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button><button class="nav-btn btn-next" id="next-btn" onclick="nextQuestion()">Next</button></div>
+        </div>
+        <div id="survey-results" style="display:none; text-align:center; animation:fadeIn 0.5s; padding-top:20px;">
+            <div class="score-circle"><div class="score-inner"><div class="score-val" id="result-score">--</div><div class="score-label">Wellness Score</div></div></div>
+            <h2 id="res-mood" style="font-size:2rem; color:var(--primary); margin-bottom:10px;">Analyzing...</h2>
+            <p id="res-desc" style="color:var(--muted); max-width:600px; margin:0 auto 30px;"></p>
+            <div style="display:flex; justify-content:center; gap:15px;"><button class="loc-btn" style="width:auto;" onclick="location.reload()">Retake</button><button class="loc-btn" style="width:auto; background:var(--primary); border:none;" onclick="downloadReport()">Download Report</button></div>
+        </div>
+    </div>
+</section>
+
+<section class="anon-wall"><div class="anon-title"><i class="fa-solid fa-quote-left"></i> You Are Not Alone</div><div id="quote-display" class="quote-box">"You are valid."</div></section>
+</main>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-col"><h3>PeopleConnect</h3><p style="line-height:1.6; color:var(--muted);">Engineered for humanity. A precision tool for social welfare and mental health support.</p></div>
+        <div class="footer-col"><h3>Quick Links</h3><a href="#locator" class="footer-link">Find Help</a><a href="#hub" class="footer-link">Service Hub</a><a href="#mental" class="footer-link">Wellness Check</a></div>
+        <div class="footer-col"><h3>Emergency Contacts</h3><div class="emergency-row"><a href="tel:100" class="foot-em-btn"><i class="fa-solid fa-shield-halved"></i> Police</a><a href="tel:108" class="foot-em-btn"><i class="fa-solid fa-truck-medical"></i> Ambulance</a><a href="tel:18005990019" class="foot-em-btn"><i class="fa-solid fa-brain"></i> Support</a></div></div>
+    </div>
+    <div class="bottom-bar"><div>© 2026 PeopleConnect.</div><div class="community-line">Built with <span style="color:var(--danger)">❤️</span> for the Community</div></div>
+</footer>
+
+<div id="chat-btn" onclick="toggleChat()"><i class="fa-solid fa-message"></i><div class="notif-badge"></div></div>
+<div id="chat-interface"><div class="chat-head"><span>PC Assistant</span><i class="fa-solid fa-xmark" onclick="toggleChat()" style="cursor:pointer"></i></div><div class="chat-body" id="chat-box"><div class="chat-bubble bot-msg">Hello! Ask me about Food, Shelter, or Support.</div></div><div class="chat-foot"><input type="text" id="chat-input" placeholder="Type a message..." onkeypress="checkEnter(event)"><i class="fa-solid fa-paper-plane" style="color:var(--primary); cursor:pointer;" onclick="sendMsg()"></i></div></div>
+
+<script>
+const db = JSON.parse(localStorage.getItem('pc_database')) || { users: [], surveys: [], journals: [] };
+function saveToDB() { localStorage.setItem('pc_database', JSON.stringify(db)); }
+const currentUser = { isLoggedIn: false, name: "", email: "", isAdmin: false };
+if(localStorage.getItem('pc_isLoggedIn') === 'true') { loginSuccess(localStorage.getItem('active_name'), localStorage.getItem('active_email')); }
+
+function checkAuth(feature) {
+    if(!currentUser.isLoggedIn) { openAuth(); return; }
+    if(feature === 'geo') { document.getElementById('locator').scrollIntoView({ behavior: 'smooth' }); activateGeo(); }
+    if(feature === 'breathe') toggleBreathing();
+    if(feature === 'journal') saveEntry();
+    if(feature === 'ground') startGrounding();
+    if(feature === 'survey') { document.getElementById('survey-welcome').style.display = 'none'; document.getElementById('survey-ui').style.display='block'; renderQuestion(); }
+}
+
+function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
+function closeAuth() { document.getElementById('auth-modal').style.display='none'; document.getElementById('login-error').style.display='none'; }
+function switchAuth(type) { document.getElementById('login-form').classList.toggle('active'); document.getElementById('register-form').classList.toggle('active'); document.getElementById('login-error').style.display='none'; }
+function handleRegister(e) { e.preventDefault(); const n=document.getElementById('reg-name').value; const em=document.getElementById('reg-email').value; const p=document.getElementById('reg-pass').value; const userExists = db.users.find(u => u.email === em); if(!userExists) { db.users.push({ name: n, email: em, joined: new Date().toLocaleDateString() }); saveToDB(); } localStorage.setItem('db_email', em); localStorage.setItem('db_pass', p); localStorage.setItem('db_name', n); setTimeout(() => { loginSuccess(n, em); closeAuth(); }, 800); }
+function handleLogin(e) { e.preventDefault(); const em=document.getElementById('login-email').value; const p=document.getElementById('login-pass').value; if(em === "admin@pc.com" && p === "admin123") { loginSuccess("Administrator", em, true); closeAuth(); return; } if(em===localStorage.getItem('db_email') && p===localStorage.getItem('db_pass')) { loginSuccess(localStorage.getItem('db_name'), em); closeAuth(); } else { document.getElementById('login-error').style.display='block'; } }
+function loginSuccess(n, e, isAdmin = false) { currentUser.isLoggedIn=true; currentUser.name=n; currentUser.email=e; currentUser.isAdmin = isAdmin; localStorage.setItem('pc_isLoggedIn','true'); localStorage.setItem('active_name',n); localStorage.setItem('active_email',e); document.getElementById('nav-login-btn').style.display='none'; if(isAdmin) { document.getElementById('nav-admin-btn').style.display='flex'; document.getElementById('nav-user-profile').style.display='none'; } else { document.getElementById('nav-admin-btn').style.display='none'; document.getElementById('nav-user-profile').style.display='flex'; document.getElementById('nav-name').innerText=n; document.getElementById('nav-avatar').innerText=n.charAt(0).toUpperCase(); updateProfileStats(); } }
+function logout() { currentUser.isLoggedIn=false; localStorage.removeItem('pc_isLoggedIn'); location.reload(); }
+function openProfile() { document.getElementById('profile-modal').style.display='flex'; document.getElementById('p-name').innerText=currentUser.name; document.getElementById('p-avatar').innerText=currentUser.name.charAt(0).toUpperCase(); updateProfileStats(); backToProfileMain(); }
+function closeProfile() { document.getElementById('profile-modal').style.display='none'; }
+function updateProfileStats() { const userSurveys = db.surveys.filter(s => s.userEmail === currentUser.email); const userJournals = db.journals.filter(j => j.userEmail === currentUser.email); document.getElementById('p-journal').innerText = userJournals.length + " saved entries"; if(userSurveys.length > 0) { const last = userSurveys[userSurveys.length - 1]; document.getElementById('p-mood').innerText = last.mood; document.getElementById('p-mood').style.color = last.score > 70 ? 'var(--success)' : 'var(--warning)'; } else { document.getElementById('p-mood').innerText = "Not assessed yet"; document.getElementById('p-mood').style.color = "var(--muted)"; } }
+function viewUserHistory(type) { document.getElementById('profile-main-view').style.display = 'none'; document.getElementById('profile-history-view').style.display = 'block'; const content = document.getElementById('history-content'); const title = document.getElementById('history-title'); content.innerHTML = ''; if(type === 'journals') { title.innerText = "Reflection Logs"; const logs = db.journals.filter(j => j.userEmail === currentUser.email); if(logs.length === 0) content.innerHTML = '<p style="color:var(--muted); text-align:center;">No entries found.</p>'; logs.reverse().forEach(log => { content.innerHTML += `<div class="history-item"><div class="history-date">${log.date}</div><div class="history-val"><span style="font-size:1.2rem; margin-right:10px;">${log.mood}</span> ${log.text}</div></div>`; }); } else if (type === 'surveys') { title.innerText = "Wellness Assessments"; const surveys = db.surveys.filter(s => s.userEmail === currentUser.email); if(surveys.length === 0) content.innerHTML = '<p style="color:var(--muted); text-align:center;">No assessments found.</p>'; surveys.reverse().forEach(s => { const col = s.score > 70 ? 'var(--success)' : 'var(--danger)'; content.innerHTML += `<div class="history-item" style="border-left: 3px solid ${col}"><div class="history-date">${s.date}</div><div class="history-val" style="display:flex; justify-content:space-between;"><span>Score: ${s.score}/100</span><span style="color:${col}; font-weight:700;">${s.mood}</span></div></div>`; }); } }
+function backToProfileMain() { document.getElementById('profile-history-view').style.display = 'none'; document.getElementById('profile-main-view').style.display = 'flex'; }
+function openAdmin() { document.getElementById('admin-modal').style.display = 'flex'; switchAdminTab('users'); }
+function closeAdmin() { document.getElementById('admin-modal').style.display = 'none'; }
+function switchAdminTab(tab) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); const view = document.getElementById('admin-view'); let html = `<table class="data-table">`; if(tab === 'users') { html += `<thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Status</th></tr></thead><tbody>`; if(db.users.length === 0) html += `<tr><td colspan="4">No users registered yet.</td></tr>`; db.users.forEach(u => { html += `<tr><td>${u.name}</td><td style="color:var(--primary)">${u.email}</td><td>${u.joined}</td><td><span class="status-pill status-good">Active</span></td></tr>`; }); } else if (tab === 'surveys') { html += `<thead><tr><th>User</th><th>Date</th><th>Score</th><th>Status</th></tr></thead><tbody>`; if(db.surveys.length === 0) html += `<tr><td colspan="4">No survey data collected.</td></tr>`; db.surveys.forEach(s => { const statusClass = s.score > 70 ? 'status-good' : 'status-bad'; html += `<tr><td>${s.userName}</td><td>${s.date}</td><td>${s.score}/100</td><td><span class="status-pill ${statusClass}">${s.mood}</span></td></tr>`; }); } else if (tab === 'journals') { html += `<thead><tr><th>User</th><th>Date</th><th>Mood</th><th>Entry Snippet</th></tr></thead><tbody>`; if(db.journals.length === 0) html += `<tr><td colspan="4">No journal entries found.</td></tr>`; db.journals.forEach(j => { html += `<tr><td>${j.userName}</td><td>${j.date}</td><td style="font-size:1.2rem">${j.mood}</td><td style="color:var(--muted)">${j.text.substring(0, 40)}...</td></tr>`; }); } html += `</tbody></table>`; view.innerHTML = html; }
+
+let timerInterval, timeLeft, isFocusing = false, isBreak = false, workDuration = 25, breakDuration = 5, totalTime = workDuration * 60;
+document.getElementById('distract-pad').value = localStorage.getItem('distraction_notes') || "";
+function updateDuration() { if(!isFocusing) { workDuration = parseInt(document.getElementById('work-dur').value) || 25; breakDuration = parseInt(document.getElementById('break-dur').value) || 5; resetTimer(); } }
+function toggleTimer() { const btn = document.getElementById('start-btn'), inputs = document.querySelectorAll('.time-input'), box = document.getElementById('focus-box'); if(!isFocusing) { document.body.classList.add('deep-focus-mode'); box.classList.add('active'); isFocusing = true; btn.innerText = "Stop Session"; btn.style.background = "var(--danger)"; btn.classList.add('active'); inputs.forEach(i => i.disabled = true); if(timeLeft === undefined) timeLeft = workDuration * 60; totalTime = timeLeft; timerInterval = setInterval(updateTimer, 1000); } else { document.body.classList.remove('deep-focus-mode'); box.classList.remove('active'); isFocusing = false; clearInterval(timerInterval); btn.innerText = "Resume Session"; btn.style.background = "var(--primary)"; btn.classList.remove('active'); inputs.forEach(i => i.disabled = false); } }
+function updateTimer() { const display = document.getElementById('timer-display'), status = document.getElementById('timer-status'), bar = document.getElementById('timer-bar'), liquid = document.getElementById('coffee-liquid'); if(timeLeft > 0) { timeLeft--; let m = Math.floor(timeLeft / 60), s = timeLeft % 60; display.innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`; let percentage = ((totalTime - timeLeft) / totalTime) * 100; bar.style.width = percentage + "%"; liquid.style.height = (100 - percentage) + "%"; } else { if(!isBreak) { isBreak = true; timeLeft = breakDuration * 60; totalTime = timeLeft; status.innerText = "Break Time - Refill Coffee"; status.className = "timer-status-badge status-break"; display.style.color = "var(--success)"; bar.style.background = "var(--success)"; liquid.style.height = "100%"; } else { isBreak = false; timeLeft = workDuration * 60; totalTime = timeLeft; status.innerText = "Focus Mode"; status.className = "timer-status-badge status-focus"; display.style.color = "var(--text)"; bar.style.background = "var(--primary)"; liquid.style.height = "100%"; } } }
+function resetTimer() { clearInterval(timerInterval); isFocusing = false; isBreak = false; document.body.classList.remove('deep-focus-mode'); document.getElementById('focus-box').classList.remove('active'); workDuration = parseInt(document.getElementById('work-dur').value) || 25; timeLeft = workDuration * 60; totalTime = timeLeft; document.getElementById('timer-display').innerText = `${workDuration < 10 ? '0'+workDuration : workDuration}:00`; const btn = document.getElementById('start-btn'); btn.innerText = "Start Session"; btn.style.background = "var(--primary)"; btn.classList.remove('active'); document.getElementById('timer-status').innerText = "Ready to Focus?"; document.getElementById('timer-status').className = "timer-status-badge"; document.getElementById('timer-bar').style.width = "0%"; document.getElementById('coffee-liquid').style.height = "100%"; document.querySelectorAll('.time-input').forEach(i => i.disabled = false); }
+function adjVol(id, val) { const audio = document.getElementById('dw-'+id); if(val > 0 && audio.paused) audio.play(); if(val == 0) audio.pause(); audio.volume = val / 100; }
+function saveDistractions() { localStorage.setItem('distraction_notes', document.getElementById('distract-pad').value); }
+
+const surveyQuestions = [ { type: 'single', q: 'How was your sleep quality last night?', opts: ['Restful', 'Okay', 'Poor', 'Insomniac'] }, { type: 'rating', q: 'Rate your energy levels today (1-10)' }, { type: 'single', q: 'How is your mental focus right now?', opts: ['Sharp', 'Distracted', 'Foggy', 'Scattered'] }, { type: 'rating', q: 'Rate your current stress level (1-10)' }, { type: 'multi', q: 'Physical sensations? (Select all that apply)', opts: ['Headache', 'Muscle Tension', 'Fatigue', 'Nausea', 'None'] }, { type: 'single', q: 'Current emotional state?', opts: ['Calm', 'Anxious', 'Sad', 'Irritable', 'Happy'] }, { type: 'rating', q: 'How connected do you feel to others? (1-10)' }, { type: 'text', q: 'One thing you are grateful for today?' } ];
+let currQ = 0, answers = new Array(8).fill(null);
+function renderQuestion() { const q = surveyQuestions[currQ], wrapper = document.getElementById('question-wrapper'); document.getElementById('survey-fill').style.width = ((currQ+1)/8)*100 + "%"; document.getElementById('prev-btn').disabled = (currQ === 0); document.getElementById('next-btn').innerText = (currQ === 7) ? "Finish" : "Next"; let html = `<div class="question-step active"><h3>${q.q}</h3>`; if(q.type === 'single') { q.opts.forEach(opt => { html += `<button class="option-btn ${answers[currQ]===opt?'selected':''}" onclick="handleSingle('${opt}')">${opt} <i class="fa-solid fa-chevron-right"></i></button>`; }); } else if(q.type === 'rating') { html += `<div class="rating-grid">`; for(let i=1; i<=10; i++) { html += `<div class="rating-num ${answers[currQ]===i?'selected':''}" onclick="handleRating(${i})">${i}</div>`; } html += `</div>`; } else if(q.type === 'multi') { q.opts.forEach(opt => { let isSel = (answers[currQ]||[]).includes(opt); html += `<button class="option-btn ${isSel?'selected':''}" onclick="handleMulti('${opt}', this)"><i class="fa-solid ${isSel?'fa-check-square':'fa-square'}"></i> ${opt}</button>`; }); } else if(q.type === 'text') { html += `<textarea class="survey-input" placeholder="Type here..." oninput="answers[currQ]=this.value">${answers[currQ]||''}</textarea>`; } html += `</div>`; wrapper.innerHTML = html; }
+function handleSingle(val) { answers[currQ] = val; setTimeout(nextQuestion, 250); }
+function handleRating(val) { answers[currQ] = val; renderQuestion(); }
+function handleMulti(val, el) { if(!answers[currQ]) answers[currQ] = []; if(answers[currQ].includes(val)) answers[currQ] = answers[currQ].filter(i=>i!==val); else answers[currQ].push(val); renderQuestion(); }
+function nextQuestion() { if(currQ < 7) { currQ++; renderQuestion(); } else calculateResults(); }
+function prevQuestion() { if(currQ > 0) { currQ--; renderQuestion(); } }
+function calculateResults() { document.getElementById('survey-ui').style.display = 'none'; document.getElementById('survey-results').style.display = 'block'; let score = 100; if(answers[0] === 'Insomniac') score -= 20; if(answers[1] < 4) score -= 10; if(answers[3] > 7) score -= 20; if(answers[5] === 'Anxious') score -= 15; document.getElementById('result-score').innerText = score; const moodTitle = score > 80 ? "Optimal Harmony" : score > 50 ? "Cognitive Strain" : "Acute Burnout"; document.getElementById('res-mood').innerText = "State: " + moodTitle; document.getElementById('res-mood').style.color = score > 80 ? "var(--success)" : score > 50 ? "var(--warning)" : "var(--danger)"; localStorage.setItem('last_mood', moodTitle); document.querySelector('.score-circle').style.background = `conic-gradient(${score > 80 ? "var(--success)" : score > 50 ? "var(--warning)" : "var(--danger)"} ${score}%, rgba(255,255,255,0.05) 0%)`; db.surveys.push({ userName: currentUser.name || "Guest", userEmail: currentUser.email, score: score, mood: moodTitle, date: new Date().toLocaleString() }); saveToDB(); }
+
+function startGrounding() { document.getElementById('ground-welcome').style.display = 'none'; document.getElementById('ground-steps').style.display = 'block'; }
+function nextGround(step) { document.querySelectorAll('.ground-step').forEach(s => s.classList.remove('active')); document.getElementById('g-step-'+step).classList.add('active'); }
+function finishGround() { document.querySelectorAll('.ground-step').forEach(s => s.classList.remove('active')); document.getElementById('g-step-done').classList.add('active'); }
+function resetGround() { document.getElementById('ground-welcome').style.display = 'block'; document.getElementById('ground-steps').style.display = 'none'; nextGround(1); }
+
+let breathInterval;
+function toggleBreathing() { const btn = document.getElementById('breath-btn'), circle = document.querySelector('.breath-circle'), txt = document.getElementById('breath-txt'), results = document.getElementById('breath-results'); if(circle.classList.contains('running')) { circle.classList.remove('running'); btn.innerText = "Start Session"; txt.innerText = "Ready?"; results.style.display = 'block'; clearInterval(breathInterval); } else { circle.classList.add('running'); btn.innerText = "End Session"; results.style.display = 'none'; let state = 0; breathInterval = setInterval(() => { const states = ["Inhale...", "Hold...", "Exhale...", "Hold..."]; txt.innerText = states[state]; state = (state + 1) % 4; }, 2000); } }
+function toggleChat() { document.getElementById('chat-interface').style.display = (document.getElementById('chat-interface').style.display==='flex')?'none':'flex'; document.querySelector('.notif-badge').style.display='none'; }
+function sendMsg(){ const i=document.getElementById('chat-input'), b=document.getElementById('chat-box'); if(!i.value.trim())return; b.innerHTML+=`<div class="chat-bubble user-msg">${i.value}</div>`; i.value=''; b.scrollTop=b.scrollHeight; setTimeout(()=>{ b.innerHTML+=`<div class="chat-bubble bot-msg">I'm here to assist with finding local resources or mental health tools.</div>`; b.scrollTop=b.scrollHeight; },600); }
+function toggleTheme(){ document.body.classList.toggle("contrast"); }
+function activateGeo() { const l = document.getElementById('geo-loader'), r = document.getElementById('geo-results'); document.querySelector('.geo-btn').style.display='none'; l.style.display='block'; setTimeout(()=>{ l.style.display='none'; r.style.display='grid'; }, 2000); }
+let currentAudio = null;
+function toggleSound(type, btn) { document.querySelectorAll('.sound-btn').forEach(b => b.classList.remove('active')); if(currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; } const newAudio = document.getElementById('audio-' + type); if(currentAudio === newAudio) { currentAudio = null; return; } btn.classList.add('active'); currentAudio = newAudio; currentAudio.play(); }
+
+let selectedMood = '😐';
+function selectMood(emoji) { document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected')); event.target.classList.add('selected'); selectedMood = emoji; }
+function saveEntry() { let count = parseInt(localStorage.getItem('jCount')||0); const txt = document.getElementById('journal-entry').value; if(!txt) return alert("Please write something first."); count++; localStorage.setItem('jCount', count); document.getElementById('entry-count').innerText = count + " entries"; document.getElementById('journal-entry').value = ""; db.journals.push({ userName: currentUser.name || "Guest", userEmail: currentUser.email, mood: selectedMood, text: txt, date: new Date().toLocaleString() }); saveToDB(); alert("Saved."); }
+
+// --- PDF DOWNLOAD FUNCTION ---
+function downloadReport() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const score = parseInt(document.getElementById('result-score').innerText) || 0;
+    
+    // Determine State and Text based on Score
+    let stateText = "", descText = "", stateColor = [], barColor = [];
+    
+    if(score > 80) {
+        stateText = "Optimal Harmony";
+        descText = "You are in the 'Green Zone.' Your physiological state is balanced and resilient.";
+        stateColor = [16, 185, 129]; // Green
+        barColor = [16, 185, 129];
+    } else if(score > 50) {
+        stateText = "Cognitive Strain";
+        descText = "You are in the 'Yellow Zone.' Your brain is utilizing excessive energy to maintain focus.";
+        stateColor = [124, 58, 237]; // Purple text
+        barColor = [245, 158, 11]; // Yellow/Orange bar
+    } else {
+        stateText = "Acute Burnout";
+        descText = "You are in the 'Red Zone.' Immediate rest is recommended to prevent exhaustion.";
+        stateColor = [239, 68, 68]; // Red
+        barColor = [239, 68, 68];
+    }
+
+    // 1. Header
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(24);
+    doc.text("PeopleConnect | Wellness Report", 20, 20);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(150, 150, 150);
+    doc.text(`Generated on: ${new Date().toLocaleString()}`, 20, 30);
+    
+    // Line Separator
+    doc.setDrawColor(220, 220, 220);
+    doc.line(20, 35, 190, 35);
+
+    // 2. Clinical Analysis
+    doc.setFontSize(16);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Clinical Analysis", 20, 50);
+
+    // State Text
+    doc.setFontSize(14);
+    doc.setTextColor(stateColor[0], stateColor[1], stateColor[2]);
+    doc.text(`State: ${stateText}`, 20, 60);
+
+    // Description Paragraph
+    doc.setFontSize(12);
+    doc.setTextColor(60, 60, 60);
+    const splitDesc = doc.splitTextToSize(descText, 170);
+    doc.text(splitDesc, 20, 70);
+
+    // 3. Visualization Bar
+    // Background (Light Gray)
+    doc.setFillColor(240, 240, 240);
+    doc.rect(20, 85, 170, 15, 'F');
+    
+    // Foreground (Colored based on score)
+    doc.setFillColor(barColor[0], barColor[1], barColor[2]);
+    // Map score 0-100 to width 0-170
+    const barWidth = (score / 100) * 170;
+    doc.rect(20, 85, barWidth, 15, 'F');
+
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text("Stress Level Visualization", 20, 105);
+
+    // 4. Recovery Protocol
+    doc.setFontSize(16);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Recovery Protocol", 20, 125);
+
+    doc.setFontSize(12);
+    doc.setTextColor(40, 40, 40);
+    doc.text("Biological Fix:", 20, 135);
+    doc.setFontSize(12);
+    doc.text("Immediate Fix: 20 minutes of 'Non-Sleep Deep Rest' (NSDR).", 20, 142);
+
+    doc.text("Neural Protocol:", 20, 155);
+    doc.text("Decision Fatigue Protocol: Stop making major choices for 4 hours.", 20, 162);
+
+    doc.save("Wellness_Report.pdf");
+}
+
+function downloadAdminReport() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("PeopleConnect | System Database", 14, 20);
+    doc.setFontSize(11);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 28);
+
+    doc.text("Registered Users", 14, 40);
+    const userRows = db.users.map(u => [u.name, u.email, u.joined]);
+    doc.autoTable({
+        startY: 45,
+        head: [['Name', 'Email', 'Joined']],
+        body: userRows,
+    });
+
+    let finalY = doc.lastAutoTable.finalY + 15;
+    doc.text("Survey History", 14, finalY);
+    const surveyRows = db.surveys.map(s => [s.userName, s.date, s.score, s.mood]);
+    doc.autoTable({
+        startY: finalY + 5,
+        head: [['User', 'Date', 'Score', 'Mood']],
+        body: surveyRows,
+    });
+    
+    finalY = doc.lastAutoTable.finalY + 15;
+    doc.text("Journal Entries", 14, finalY);
+    const journalRows = db.journals.map(j => [j.userName, j.date, j.mood, j.text]);
+    doc.autoTable({
+        startY: finalY + 5,
+        head: [['User', 'Date', 'Mood', 'Entry']],
+        body: journalRows,
+    });
+
+    doc.save("PeopleConnect_Database.pdf");
+}
+</script>
+
+</body>
+</html>
