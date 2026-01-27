@@ -1,4 +1,4 @@
-const db = JSON.parse(localStorage.getItem('pc_database')) || { users: [], surveys: [], journals: [] };
+const db = JSON.parse(localStorage.getItem('pc_database')) || { users: [], surveys: [], journals: [], focusSessions: [] };
 function saveToDB() { localStorage.setItem('pc_database', JSON.stringify(db)); }
 const currentUser = { isLoggedIn: false, name: "", email: "", isAdmin: false };
 if(localStorage.getItem('pc_isLoggedIn') === 'true') { loginSuccess(localStorage.getItem('active_name'), localStorage.getItem('active_email')); }
@@ -10,6 +10,7 @@ function checkAuth(feature) {
     if(feature === 'journal') saveEntry();
     if(feature === 'ground') startGrounding();
     if(feature === 'survey') { document.getElementById('survey-welcome').style.display = 'none'; document.getElementById('survey-ui').style.display='block'; renderQuestion(); }
+    if(feature === 'focus_hist') { openProfile(); viewUserHistory('focus'); }
 }
 
 function openAuth() { document.getElementById('auth-modal').style.display='flex'; }
@@ -21,8 +22,67 @@ function loginSuccess(n, e, isAdmin = false) { currentUser.isLoggedIn=true; curr
 function logout() { currentUser.isLoggedIn=false; localStorage.removeItem('pc_isLoggedIn'); location.reload(); }
 function openProfile() { document.getElementById('profile-modal').style.display='flex'; document.getElementById('p-name').innerText=currentUser.name; document.getElementById('p-avatar').innerText=currentUser.name.charAt(0).toUpperCase(); updateProfileStats(); backToProfileMain(); }
 function closeProfile() { document.getElementById('profile-modal').style.display='none'; }
-function updateProfileStats() { const userSurveys = db.surveys.filter(s => s.userEmail === currentUser.email); const userJournals = db.journals.filter(j => j.userEmail === currentUser.email); document.getElementById('p-journal').innerText = userJournals.length + " saved entries"; if(userSurveys.length > 0) { const last = userSurveys[userSurveys.length - 1]; document.getElementById('p-mood').innerText = last.mood; document.getElementById('p-mood').style.color = last.score > 70 ? 'var(--success)' : 'var(--warning)'; } else { document.getElementById('p-mood').innerText = "Not assessed yet"; document.getElementById('p-mood').style.color = "var(--muted)"; } }
-function viewUserHistory(type) { document.getElementById('profile-main-view').style.display = 'none'; document.getElementById('profile-history-view').style.display = 'block'; const content = document.getElementById('history-content'); const title = document.getElementById('history-title'); content.innerHTML = ''; if(type === 'journals') { title.innerText = "Reflection Logs"; const logs = db.journals.filter(j => j.userEmail === currentUser.email); if(logs.length === 0) content.innerHTML = '<p style="color:var(--muted); text-align:center;">No entries found.</p>'; logs.reverse().forEach(log => { content.innerHTML += `<div class="history-item"><div class="history-date">${log.date}</div><div class="history-val"><span style="font-size:1.2rem; margin-right:10px;">${log.mood}</span> ${log.text}</div></div>`; }); } else if (type === 'surveys') { title.innerText = "Wellness Assessments"; const surveys = db.surveys.filter(s => s.userEmail === currentUser.email); if(surveys.length === 0) content.innerHTML = '<p style="color:var(--muted); text-align:center;">No assessments found.</p>'; surveys.reverse().forEach(s => { const col = s.score > 70 ? 'var(--success)' : 'var(--danger)'; content.innerHTML += `<div class="history-item" style="border-left: 3px solid ${col}"><div class="history-date">${s.date}</div><div class="history-val" style="display:flex; justify-content:space-between;"><span>Score: ${s.score}/100</span><span style="color:${col}; font-weight:700;">${s.mood}</span></div></div>`; }); } }
+
+function updateProfileStats() { 
+    const userSurveys = db.surveys.filter(s => s.userEmail === currentUser.email); 
+    const userJournals = db.journals.filter(j => j.userEmail === currentUser.email); 
+    // Filter Focus Sessions for current user
+    const userFocus = db.focusSessions ? db.focusSessions.filter(f => f.userEmail === currentUser.email) : [];
+    
+    // Calculate Total Focus Minutes
+    const totalMinutes = userFocus.reduce((acc, curr) => acc + curr.duration, 0);
+
+    document.getElementById('p-journal').innerText = userJournals.length + " saved entries"; 
+    document.getElementById('p-focus-time').innerText = totalMinutes + " mins total";
+
+    if(userSurveys.length > 0) { 
+        const last = userSurveys[userSurveys.length - 1]; 
+        document.getElementById('p-mood').innerText = last.mood; 
+        document.getElementById('p-mood').style.color = last.score > 70 ? 'var(--success)' : 'var(--warning)'; 
+    } else { 
+        document.getElementById('p-mood').innerText = "Not assessed yet"; 
+        document.getElementById('p-mood').style.color = "var(--muted)"; 
+    } 
+}
+
+function viewUserHistory(type) { 
+    document.getElementById('profile-main-view').style.display = 'none'; 
+    document.getElementById('profile-history-view').style.display = 'block'; 
+    const content = document.getElementById('history-content'); 
+    const title = document.getElementById('history-title'); 
+    const dlBtn = document.getElementById('hist-download-btn');
+    
+    content.innerHTML = ''; 
+    dlBtn.style.display = 'none';
+
+    if(type === 'journals') { 
+        title.innerText = "Reflection Logs"; 
+        const logs = db.journals.filter(j => j.userEmail === currentUser.email); 
+        if(logs.length === 0) content.innerHTML = '<p style="color:var(--muted); text-align:center;">No entries found.</p>'; 
+        logs.reverse().forEach(log => { content.innerHTML += `<div class="history-item"><div class="history-date">${log.date}</div><div class="history-val"><span style="font-size:1.2rem; margin-right:10px;">${log.mood}</span> ${log.text}</div></div>`; }); 
+    } else if (type === 'surveys') { 
+        title.innerText = "Wellness Assessments"; 
+        const surveys = db.surveys.filter(s => s.userEmail === currentUser.email); 
+        if(surveys.length === 0) content.innerHTML = '<p style="color:var(--muted); text-align:center;">No assessments found.</p>'; 
+        surveys.reverse().forEach(s => { const col = s.score > 70 ? 'var(--success)' : 'var(--danger)'; content.innerHTML += `<div class="history-item" style="border-left: 3px solid ${col}"><div class="history-date">${s.date}</div><div class="history-val" style="display:flex; justify-content:space-between;"><span>Score: ${s.score}/100</span><span style="color:${col}; font-weight:700;">${s.mood}</span></div></div>`; }); 
+    } else if (type === 'focus') {
+        title.innerText = "Deep Work Sessions";
+        dlBtn.style.display = 'block'; // Show download button for focus
+        const sessions = db.focusSessions ? db.focusSessions.filter(f => f.userEmail === currentUser.email) : [];
+        if(sessions.length === 0) content.innerHTML = '<p style="color:var(--muted); text-align:center;">No focus sessions recorded.</p>';
+        sessions.reverse().forEach(s => {
+            content.innerHTML += `
+            <div class="history-item" style="display:flex; align-items:center; gap:15px;">
+                <div style="font-size:1.5rem; color:var(--primary);"><i class="fa-solid fa-check-circle"></i></div>
+                <div>
+                    <div class="history-date">${s.date}</div>
+                    <div class="history-val">Completed <b>${s.duration} minutes</b> focus</div>
+                </div>
+            </div>`;
+        });
+    }
+}
+
 function backToProfileMain() { document.getElementById('profile-history-view').style.display = 'none'; document.getElementById('profile-main-view').style.display = 'flex'; }
 function openAdmin() { document.getElementById('admin-modal').style.display = 'flex'; switchAdminTab('users'); }
 function closeAdmin() { document.getElementById('admin-modal').style.display = 'none'; }
@@ -32,7 +92,24 @@ let timerInterval, timeLeft, isFocusing = false, isBreak = false, workDuration =
 document.getElementById('distract-pad').value = localStorage.getItem('distraction_notes') || "";
 function updateDuration() { if(!isFocusing) { workDuration = parseInt(document.getElementById('work-dur').value) || 25; breakDuration = parseInt(document.getElementById('break-dur').value) || 5; resetTimer(); } }
 function toggleTimer() { const btn = document.getElementById('start-btn'), inputs = document.querySelectorAll('.time-input'), box = document.getElementById('focus-box'); if(!isFocusing) { document.body.classList.add('deep-focus-mode'); box.classList.add('active'); isFocusing = true; btn.innerText = "Stop Session"; btn.style.background = "var(--danger)"; btn.classList.add('active'); inputs.forEach(i => i.disabled = true); if(timeLeft === undefined) timeLeft = workDuration * 60; totalTime = timeLeft; timerInterval = setInterval(updateTimer, 1000); } else { document.body.classList.remove('deep-focus-mode'); box.classList.remove('active'); isFocusing = false; clearInterval(timerInterval); btn.innerText = "Resume Session"; btn.style.background = "var(--primary)"; btn.classList.remove('active'); inputs.forEach(i => i.disabled = false); } }
-function updateTimer() { const display = document.getElementById('timer-display'), status = document.getElementById('timer-status'), bar = document.getElementById('timer-bar'), liquid = document.getElementById('coffee-liquid'); if(timeLeft > 0) { timeLeft--; let m = Math.floor(timeLeft / 60), s = timeLeft % 60; display.innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`; let percentage = ((totalTime - timeLeft) / totalTime) * 100; bar.style.width = percentage + "%"; liquid.style.height = (100 - percentage) + "%"; } else { if(!isBreak) { isBreak = true; timeLeft = breakDuration * 60; totalTime = timeLeft; status.innerText = "Break Time - Refill Coffee"; status.className = "timer-status-badge status-break"; display.style.color = "var(--success)"; bar.style.background = "var(--success)"; liquid.style.height = "100%"; } else { isBreak = false; timeLeft = workDuration * 60; totalTime = timeLeft; status.innerText = "Focus Mode"; status.className = "timer-status-badge status-focus"; display.style.color = "var(--text)"; bar.style.background = "var(--primary)"; liquid.style.height = "100%"; } } }
+function updateTimer() { const display = document.getElementById('timer-display'), status = document.getElementById('timer-status'), bar = document.getElementById('timer-bar'), liquid = document.getElementById('coffee-liquid'); if(timeLeft > 0) { timeLeft--; let m = Math.floor(timeLeft / 60), s = timeLeft % 60; display.innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`; let percentage = ((totalTime - timeLeft) / totalTime) * 100; bar.style.width = percentage + "%"; liquid.style.height = (100 - percentage) + "%"; } else { if(!isBreak) { 
+    // SESSION COMPLETE LOGIC HERE
+    saveFocusSession(workDuration);
+    isBreak = true; timeLeft = breakDuration * 60; totalTime = timeLeft; status.innerText = "Break Time - Refill Coffee"; status.className = "timer-status-badge status-break"; display.style.color = "var(--success)"; bar.style.background = "var(--success)"; liquid.style.height = "100%"; 
+} else { isBreak = false; timeLeft = workDuration * 60; totalTime = timeLeft; status.innerText = "Focus Mode"; status.className = "timer-status-badge status-focus"; display.style.color = "var(--text)"; bar.style.background = "var(--primary)"; liquid.style.height = "100%"; } } }
+
+function saveFocusSession(duration) {
+    if(!currentUser.isLoggedIn) return; // Only save if logged in
+    if(!db.focusSessions) db.focusSessions = [];
+    db.focusSessions.push({
+        userName: currentUser.name,
+        userEmail: currentUser.email,
+        duration: duration,
+        date: new Date().toLocaleString()
+    });
+    saveToDB();
+}
+
 function resetTimer() { clearInterval(timerInterval); isFocusing = false; isBreak = false; document.body.classList.remove('deep-focus-mode'); document.getElementById('focus-box').classList.remove('active'); workDuration = parseInt(document.getElementById('work-dur').value) || 25; timeLeft = workDuration * 60; totalTime = timeLeft; document.getElementById('timer-display').innerText = `${workDuration < 10 ? '0'+workDuration : workDuration}:00`; const btn = document.getElementById('start-btn'); btn.innerText = "Start Session"; btn.style.background = "var(--primary)"; btn.classList.remove('active'); document.getElementById('timer-status').innerText = "Ready to Focus?"; document.getElementById('timer-status').className = "timer-status-badge"; document.getElementById('timer-bar').style.width = "0%"; document.getElementById('coffee-liquid').style.height = "100%"; document.querySelectorAll('.time-input').forEach(i => i.disabled = false); }
 function adjVol(id, val) { const audio = document.getElementById('dw-'+id); if(val > 0 && audio.paused) audio.play(); if(val == 0) audio.pause(); audio.volume = val / 100; }
 function saveDistractions() { localStorage.setItem('distraction_notes', document.getElementById('distract-pad').value); }
@@ -151,6 +228,38 @@ function downloadReport() {
     doc.save("Wellness_Report.pdf");
 }
 
+function downloadFocusReport() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Filter sessions for current user
+    const sessions = db.focusSessions ? db.focusSessions.filter(f => f.userEmail === currentUser.email) : [];
+    const totalMins = sessions.reduce((acc, curr) => acc + curr.duration, 0);
+
+    // Header
+    doc.setFontSize(22);
+    doc.text("Deep Work Session Report", 14, 20);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`User: ${currentUser.name}`, 14, 30);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 35);
+    doc.text(`Total Focus Time: ${totalMins} minutes`, 14, 40);
+    
+    // Table Data
+    const tableRows = sessions.reverse().map(s => [s.date, s.duration + " mins", "Completed"]);
+
+    doc.autoTable({
+        startY: 50,
+        head: [['Date & Time', 'Duration', 'Status']],
+        body: tableRows,
+        theme: 'grid',
+        headStyles: { fillColor: [139, 92, 246] } // Uses Primary Purple
+    });
+
+    doc.save("Focus_Session_Report.pdf");
+}
+
 function downloadAdminReport() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -188,3 +297,47 @@ function downloadAdminReport() {
 
     doc.save("PeopleConnect_Database.pdf");
 }
+
+// ================== AWARENESS SECTION ANIMATION ==================
+const observerOptions = {
+    threshold: 0.2
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.aware-card').forEach(card => {
+    observer.observe(card);
+});
+
+// ================== RANDOM QUOTE GENERATOR ==================
+const quotes = [
+    "You don’t have to control your thoughts. You just have to stop letting them control you.",
+    "There is hope, even when your brain tells you there isn’t.",
+    "You are not your illness. You have an individual story to tell.",
+    "Your present circumstances don't determine where you can go; they merely determine where you start.",
+    "Self-care is how you take your power back.",
+    "You are not alone in this.",
+    "One day at a time.",
+    "Breathe. It’s just a bad day, not a bad life.",
+    "You are stronger than you know.",
+    "It is okay to have depression, it is okay to have anxiety and it is okay to have an adjustment disorder."
+];
+
+function displayRandomQuote() {
+    const quoteBox = document.getElementById('quote-display');
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    quoteBox.style.opacity = 0; // Fade out slightly
+    setTimeout(() => {
+        quoteBox.innerText = `"${quotes[randomIndex]}"`;
+        quoteBox.style.opacity = 1; // Fade in
+    }, 500);
+}
+
+// Trigger quote on page load
+displayRandomQuote();
