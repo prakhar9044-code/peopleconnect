@@ -61,6 +61,14 @@
         </div>
         
         <div class="profile-body" id="profile-main-view">
+            <div class="perf-card" onclick="viewUserHistory('focus')">
+                <div class="perf-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                <div>
+                    <p style="color:var(--muted); font-size:0.75rem; text-transform: uppercase; letter-spacing: 1px;">Focus Time</p>
+                    <h4 style="font-size:1rem; font-weight: 600;" id="p-focus-time">0 mins</h4>
+                </div>
+            </div>
+
             <div class="perf-card" onclick="viewUserHistory('surveys')">
                 <div class="perf-icon"><i class="fa-solid fa-wave-square"></i></div>
                 <div>
@@ -79,10 +87,13 @@
         </div>
 
         <div class="history-view" id="profile-history-view">
-            <button class="back-btn" onclick="backToProfileMain()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <button class="back-btn" onclick="backToProfileMain()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <button id="hist-download-btn" class="download-btn-small" style="display:none;" onclick="downloadFocusReport()"><i class="fa-solid fa-download"></i> PDF</button>
+            </div>
             <h3 id="history-title" style="margin-bottom: 15px; font-size: 1.2rem;">History</h3>
             <div id="history-content" style="max-height: 300px; overflow-y: auto;">
-                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -111,7 +122,7 @@
     <a href="#deepwork" class="link">Deep Work</a>
     <a href="#locator" class="link">Nearby</a>
     <a href="#hub" class="link">Hub</a>
-    <a href="#mental" class="link">Wellness</a>
+    <a href="#awareness" class="link">Resources</a>
     <div class="nav-emergency">
         <a href="tel:100" class="em-icon police" title="Police"><i class="fa-solid fa-shield-halved"></i></a>
         <a href="tel:108" class="em-icon ambulance" title="Ambulance"><i class="fa-solid fa-truck-medical"></i></a>
@@ -144,9 +155,7 @@
         
         <div class="focus-timer-box" id="focus-box">
             <div class="timer-progress-bar" id="timer-bar"></div>
-            
             <span id="timer-status" class="timer-status-badge">Ready to Focus?</span>
-            
             <div style="position:relative; width:100px; margin:0 auto;">
                 <div class="steam-container">
                     <div class="steam"></div><div class="steam"></div><div class="steam"></div>
@@ -156,9 +165,7 @@
                 </div>
                 <div class="coffee-handle"></div>
             </div>
-
             <div class="timer-display" id="timer-display">25:00</div>
-            
             <div class="timer-settings">
                 <div class="setting-grp">
                     <label>Work (min)</label>
@@ -168,8 +175,10 @@
                     <label>Break (min)</label>
                     <input type="number" id="break-dur" class="time-input" value="5" min="1" max="30" onchange="updateDuration()">
                 </div>
+                <div class="setting-grp" style="justify-content:flex-end; padding-bottom:5px;">
+                     <button class="focus-hist-btn" onclick="checkAuth('focus_hist')" title="View Past Sessions"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                </div>
             </div>
-
             <div class="timer-controls">
                 <button class="btn-focus btn-start" id="start-btn" onclick="toggleTimer()">Start Session</button>
                 <button class="btn-focus btn-reset" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
@@ -178,25 +187,21 @@
 
         <div class="focus-mixer">
             <h3 style="margin-bottom:10px;"><i class="fa-solid fa-sliders"></i> Ambient Mixer</h3>
-            
             <div class="mixer-track">
                 <div class="mixer-icon"><i class="fa-solid fa-cloud-rain"></i></div>
                 <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('rain', this.value)">
             </div>
-            
             <div class="mixer-track">
                 <div class="mixer-icon"><i class="fa-solid fa-headphones"></i></div>
                 <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('lofi', this.value)">
             </div>
-            
             <div class="mixer-track">
                 <div class="mixer-icon"><i class="fa-solid fa-mug-hot"></i></div>
                 <input type="range" min="0" max="100" value="0" class="mixer-slider" oninput="adjVol('cafe', this.value)">
             </div>
-            
-            <audio id="dw-rain" loop src="https://cdn.pixabay.com/download/audio/2022/05/17/audio_415277a064.mp3?filename=rain-and-thunder-16705.mp3"></audio>
+            <audio id="dw-rain" loop src="gentle-rain-07-437321.mp3"></audio>
             <audio id="dw-lofi" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"></audio>
-            <audio id="dw-cafe" loop src="https://cdn.pixabay.com/download/audio/2021/09/06/audio_341e77983c.mp3?filename=people-talking-in-a-cafe-6729.mp3"></audio>
+            <audio id="dw-cafe" loop src="cafe-noise-32940.mp3"></audio>
         </div>
 
         <div class="focus-notes">
@@ -282,8 +287,8 @@
         <button class="sound-btn" onclick="toggleSound('white', this)"><i class="fa-solid fa-wind"></i> White Noise</button>
         <button class="sound-btn" onclick="toggleSound('piano', this)"><i class="fa-solid fa-music"></i> Piano</button>
     </div>
-    <audio id="audio-rain" loop src="https://cdn.pixabay.com/download/audio/2022/05/17/audio_415277a064.mp3?filename=rain-and-thunder-16705.mp3"></audio>
-    <audio id="audio-white" loop src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_88447e769f.mp3?filename=white-noise-8142.mp3"></audio>
+    <audio id="audio-rain" loop src="gentle-rain-07-437321.mp3"></audio>
+    <audio id="audio-white" loop src="cafe-noise-32940.mp3"></audio>
     <audio id="audio-piano" loop src="https://cdn.pixabay.com/download/audio/2022/03/09/audio_c8c8a73467.mp3?filename=meditation-piano-11516.mp3"></audio>
 </section>
 
@@ -349,6 +354,54 @@
             <h2 id="res-mood" style="font-size:2rem; color:var(--primary); margin-bottom:10px;">Analyzing...</h2>
             <p id="res-desc" style="color:var(--muted); max-width:600px; margin:0 auto 30px;"></p>
             <div style="display:flex; justify-content:center; gap:15px;"><button class="loc-btn" style="width:auto;" onclick="location.reload()">Retake</button><button class="loc-btn" style="width:auto; background:var(--primary); border:none;" onclick="downloadReport()">Download Report</button></div>
+        </div>
+    </div>
+</section>
+
+<section id="awareness" class="awareness-section">
+    <div class="section-head">
+        <h2>Mental Health Awareness & Resources</h2>
+        <p>Understanding mental health is the first step toward wellness. Here are essential resources for you.</p>
+    </div>
+    <div class="awareness-grid">
+        <div class="aware-card delay-1">
+            <div class="aware-icon-box"><i class="fa-solid fa-spa"></i></div>
+            <h3>Stress Management Tips</h3>
+            <ul class="aware-list">
+                <li><i class="fa-solid fa-leaf"></i> Practice deep breathing exercises for 5 minutes daily</li>
+                <li><i class="fa-solid fa-leaf"></i> Take regular breaks during study sessions</li>
+                <li><i class="fa-solid fa-leaf"></i> Maintain a consistent sleep schedule (7-8 hours)</li>
+                <li><i class="fa-solid fa-leaf"></i> Stay physically active - even a 15-minute walk helps</li>
+                <li><i class="fa-solid fa-leaf"></i> Connect with friends and family regularly</li>
+            </ul>
+        </div>
+
+        <div class="aware-card delay-2">
+            <div class="aware-icon-box warn-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3>Signs of Burnout</h3>
+            <ul class="aware-list">
+                <li><i class="fa-solid fa-bolt" style="color:var(--warning)"></i> Persistent fatigue and lack of energy</li>
+                <li><i class="fa-solid fa-bolt" style="color:var(--warning)"></i> Difficulty concentrating or remembering things</li>
+                <li><i class="fa-solid fa-bolt" style="color:var(--warning)"></i> Changes in sleep patterns or appetite</li>
+                <li><i class="fa-solid fa-bolt" style="color:var(--warning)"></i> Feeling detached or isolated from others</li>
+                <li><i class="fa-solid fa-bolt" style="color:var(--warning)"></i> Loss of interest in activities you usually enjoy</li>
+            </ul>
+        </div>
+
+        <div class="aware-card delay-3">
+            <div class="aware-icon-box med-icon"><i class="fa-solid fa-stethoscope"></i></div>
+            <h3>When to Seek Professional Help</h3>
+            <ul class="aware-list">
+                <li><i class="fa-solid fa-heart" style="color:var(--danger)"></i> Symptoms persist for more than 2 weeks</li>
+                <li><i class="fa-solid fa-heart" style="color:var(--danger)"></i> Symptoms interfere with daily activities</li>
+                <li><i class="fa-solid fa-heart" style="color:var(--danger)"></i> You experience thoughts of self-harm</li>
+                <li><i class="fa-solid fa-heart" style="color:var(--danger)"></i> Feelings of hopelessness or worthlessness</li>
+                <li><i class="fa-solid fa-heart" style="color:var(--danger)"></i> Unable to cope with daily stress</li>
+            </ul>
+            <div class="crisis-box-internal">
+                <h4>If you're in crisis, don't wait.</h4>
+                <p>Reach out immediately.</p>
+            </div>
         </div>
     </div>
 </section>
