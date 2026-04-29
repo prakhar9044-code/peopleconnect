@@ -1,56 +1,54 @@
-# PeopleConnect | Elite Support Ecosystem
+<div align="center">
 
-![Project Status](https://img.shields.io/badge/Status-Active-success)
-![License](https://img.shields.io/badge/License-MIT-blue)
-![Tech](https://img.shields.io/badge/Tech-HTML%20%7C%20CSS%20%7C%20JS-purple)
+# 🌐 PeopleConnect
 
-**PeopleConnect** is a comprehensive web platform designed to bridge the gap between social welfare services and personal mental wellness. It combines hyper-local resource discovery (food, shelter, medical) with productivity tools and clinical-grade mental health assessments.
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Space+Mono&weight=600&size=24&pause=1000&color=4A90E2&center=true&vCenter=true&width=600&lines=A+Comprehensive+Digital+Ecosystem;Empowering+Social+Welfare;Advancing+Mental+Wellness;Built+for+the+Community)](https://git.io/typing-svg)
 
----
-
-## 🌟 Key Features
-
-### 🧠 Mental Wellness & Health
-* **Wellness Assessment Survey:** An interactive 8-question survey that calculates a stress score and classifies the user into zones (Green, Yellow, Red).
-* **PDF Report Generation:** Users can download a detailed PDF report of their mental health status, including specific biological and neural recovery protocols.
-* **Breathe & Grounding:** Built-in interactive breathing exercises and a "5-4-3-2-1" sensory grounding tool to reduce anxiety.
-* **Daily Journal:** A reflection log with mood tracking (saved to LocalStorage).
-
-### 🚀 Productivity (Deep Work Zone)
-* **Focus Timer:** A customizable Pomodoro-style timer (Work/Break intervals) with visual progress.
-* **Ambient Mixer:** Adjustable background sounds (Rain, Lo-Fi, Cafe) to aid concentration.
-* **Brain Dump:** A distraction pad to type out thoughts without leaving the focus session.
-
-### 📍 Service Locator & Hub
-* **Geo-Locator:** A simulated radar interface that finds nearby community kitchens, shelters, and clinics.
-* **Service Hub:** Categorized cards for government-listed and community-verified resources.
-
-### 🛡️ Admin & User System
-* **Authentication:** Fully functional mock Login/Registration system.
-* **Admin Dashboard:** A protected panel to view all registered users, survey results, and journal entries.
-* **Database Export:** Admin capability to download the entire system data (Users/Logs) as a PDF report.
-* **Data Persistence:** All data is persisted using the browser's `LocalStorage`.
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge&logo=status" alt="Status" />
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=semver" alt="Version" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License" />
+</p>
 
 ---
+
+</div>
+
+## 📖 Overview
+
+**PeopleConnect** is a cutting-edge digital ecosystem engineered to bridge the gap between social welfare initiatives and accessible mental wellness resources. Designed with a focus on human-centric UI/UX and seamless performance, it serves as a unified platform for community support, psychological well-being, and social empowerment. 
+
+Initiated at Lovely Professional University, this platform translates a vision of profound social impact into a scalable, interactive web experience.
+
+## ✨ Key Features
+
+- 🧠 **Mental Wellness Hub:** Secure, private, and intuitive interfaces for accessing mental health resources, tracking wellness journeys, and finding professional support.
+- 🤝 **Social Welfare Integration:** A streamlined dashboard connecting users with active community welfare programs, volunteer opportunities, and social campaigns.
+- ⚡ **High-Performance Architecture:** Built with modern web technologies ensuring lightning-fast load times, fluid animations, and a responsive experience across all devices.
+- 🎨 **Cinematic UI/UX:** Features a premium, glassmorphism-inspired design language with smooth transitions to ensure a calming and accessible user experience.
 
 ## 🛠️ Tech Stack
 
-* **Frontend:** HTML5, CSS3 (Custom Properties, Glassmorphism, Animations, Flexbox/Grid).
-* **Logic:** Vanilla JavaScript (ES6+).
-* **Data Storage:** Browser LocalStorage (No backend required for demo).
-* **Libraries:**
-    * [jsPDF](https://github.com/parallax/jsPDF) (For generating PDF reports).
-    * [FontAwesome 6](https://fontawesome.com/) (For icons).
-    * [Google Fonts](https://fonts.google.com/) (Plus Jakarta Sans & Playfair Display).
+<div align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Three.js-black?style=for-the-badge&logo=three.js&logoColor=white" alt="Three.js" />
+  <img src="https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white" alt="GSAP" />
+</div>
 
----
+## 🚀 Quick Start
 
-## 📂 Project Structure
+Follow these steps to get PeopleConnect running smoothly on your local machine.
 
-```text
-/people-connect
-│
-├── index.html      # Main HTML structure
-├── style.css       # All styling, animations, and responsive design
-├── script.js       # Logic for Auth, PDFs, Timer, and Data Management
-└── README.md       # Project documentation
+### Prerequisites
+Make sure you have Node.js and npm installed on your system.
+* Node.js (v16.x or higher)
+* npm (v8.x or higher)
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/yourusername/PeopleConnect.git](https://github.com/yourusername/PeopleConnect.git)
