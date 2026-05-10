@@ -1,20 +1,20 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=00FFFF&height=250&section=header&text=PeopleConnect&fontSize=85&fontAlignY=40&animation=twinkling&fontColor=ffffff&desc=A%20Digital%20Ecosystem%20for%20Social%20&%20Mental%20Wellness&descAlignY=60&descAlign=60" alt="PeopleConnect Banner" width="100%"/>
+<img src="[https://capsule-render.vercel.app/api?type=waving&color=00FFFF&height=250&section=header&text=PeopleConnect&fontSize=85&fontAlignY=40&animation=twinkling&fontColor=ffffff&desc=A%20Digital%20Ecosystem%20for%20Social%20&%20Mental%20Wellness&descAlignY=60&descAlign=60](https://capsule-render.vercel.app/api?type=waving&color=00FFFF&height=250&section=header&text=PeopleConnect&fontSize=85&fontAlignY=40&animation=twinkling&fontColor=ffffff&desc=A%20Digital%20Ecosystem%20for%20Social%20&%20Mental%20Wellness&descAlignY=60&descAlign=60)" alt="PeopleConnect Banner" width="100%"/>
 
-<a href="https://github.com/PrakharVerma/PeopleConnect">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=26&pause=1000&color=00E5FF&center=true&vCenter=true&width=900&height=50&lines=Empowering+Social+Welfare+Through+Technology;Advancing+Mental+Wellness+With+AI;Cyber-Wellness+Aesthetic+with+Dark+Luxury+UI;Built+for+the+Community,+By+the+Community;Powered+by+Three.js,+GSAP,+and+React" alt="Typing SVG" />
+<a href="[https://github.com/PrakharVerma/PeopleConnect](https://github.com/PrakharVerma/PeopleConnect)">
+  <img src="[https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=26&pause=1000&color=00E5FF&center=true&vCenter=true&width=900&height=50&lines=Empowering+Social+Welfare+Through+Technology;Advancing+Mental+Wellness+With+AI;Cyber-Wellness+Aesthetic+with+Dark+Luxury+UI;Built+for+the+Community,+By+the+Community;Powered+by+Three.js,+GSAP,+and+React](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=26&pause=1000&color=00E5FF&center=true&vCenter=true&width=900&height=50&lines=Empowering+Social+Welfare+Through+Technology;Advancing+Mental+Wellness+With+AI;Cyber-Wellness+Aesthetic+with+Dark+Luxury+UI;Built+for+the+Community,+By+the+Community;Powered+by+Three.js,+GSAP,+and+React)" alt="Typing SVG" />
 </a>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Active-00E5FF?style=for-the-badge&logo=status&logoColor=white&style=flat-square" alt="Status" />
-  <img src="https://img.shields.io/badge/Version-2.0.0-0055FF?style=for-the-badge&logo=semver&logoColor=white&style=flat-square" alt="Version" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&style=flat-square" alt="License" />
-  <img src="https://img.shields.io/badge/Maintained%3F-yes-00E5FF?style=for-the-badge&style=flat-square" alt="Maintained" />
-  <img src="https://komarev.com/ghpvc/?username=PrakharVerma-PeopleConnect&label=Ecosystem+Views&color=00E5FF&style=for-the-badge" alt="Views" />
+  <img src="[https://img.shields.io/badge/Status-Active-00E5FF?style=for-the-badge&logo=status&logoColor=white&style=flat-square](https://img.shields.io/badge/Status-Active-00E5FF?style=for-the-badge&logo=status&logoColor=white&style=flat-square)" alt="Status" />
+  <img src="[https://img.shields.io/badge/Version-2.0.0-0055FF?style=for-the-badge&logo=semver&logoColor=white&style=flat-square](https://img.shields.io/badge/Version-2.0.0-0055FF?style=for-the-badge&logo=semver&logoColor=white&style=flat-square)" alt="Version" />
+  <img src="[https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&style=flat-square](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&style=flat-square)" alt="License" />
+  <img src="[https://img.shields.io/badge/Maintained%3F-yes-00E5FF?style=for-the-badge&style=flat-square](https://img.shields.io/badge/Maintained%3F-yes-00E5FF?style=for-the-badge&style=flat-square)" alt="Maintained" />
+  <img src="[https://komarev.com/ghpvc/?username=PrakharVerma-PeopleConnect&label=Ecosystem+Views&color=00E5FF&style=for-the-badge](https://komarev.com/ghpvc/?username=PrakharVerma-PeopleConnect&label=Ecosystem+Views&color=00E5FF&style=for-the-badge)" alt="Views" />
 </p>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png" alt="divider" width="100%">
+<img src="[https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)" alt="divider" width="100%">
 
 </div>
 
@@ -62,15 +62,15 @@ Built without compromise, ensuring lightning-fast performance and cinematic inte
 <div align="center">
   
 **Frontend & Animation Engine**<br>
-<a href="https://skillicons.dev">
-  <img src="https://skillicons.dev/icons?i=react,html,css,js,threejs,vite&theme=dark" alt="Frontend Stack" />
+<a href="[https://skillicons.dev](https://skillicons.dev)">
+  <img src="[https://skillicons.dev/icons?i=react,html,css,js,threejs,vite&theme=dark](https://skillicons.dev/icons?i=react,html,css,js,threejs,vite&theme=dark)" alt="Frontend Stack" />
 </a>
 
 <br>
 
 **Backend, Database & Design**<br>
-<a href="https://skillicons.dev">
-  <img src="https://skillicons.dev/icons?i=nodejs,python,supabase,figma,git,github&theme=dark" alt="Backend Stack" />
+<a href="[https://skillicons.dev](https://skillicons.dev)">
+  <img src="[https://skillicons.dev/icons?i=nodejs,python,supabase,figma,git,github&theme=dark](https://skillicons.dev/icons?i=nodejs,python,supabase,figma,git,github&theme=dark)" alt="Backend Stack" />
 </a>
 
 </div>
@@ -92,21 +92,12 @@ graph TD;
     style D fill:#000000,stroke:#3ECF8E,stroke-width:2px,color:#fff
     style E fill:#000000,stroke:#3ECF8E,stroke-width:2px,color:#fff
     style F fill:#000000,stroke:#FFD43B,stroke-width:2px,color:#fff
-🚀 Deployment GuideFollow this sequence to ignite the PeopleConnect ecosystem on your local machine.PrerequisitesNode.js (v18.x or higher)npm or yarnSupabase Project CredentialsExecutionBash# 1. Clone the core repository
-git clone [https://github.com/PrakharVerma/PeopleConnect.git](https://github.com/PrakharVerma/PeopleConnect.git)
 
-# 2. Access the directory
-cd PeopleConnect
-
-# 3. Install core dependencies
-npm install
-
-# 4. Configure environment variables
-cp .env.example .env
-# --> Insert your Supabase and API keys into the .env file
-
-# 5. Launch the local development server
-npm run dev
+🚀 Deployment GuideFollow this sequence to ignite the PeopleConnect ecosystem on your local machine.PrerequisitesNode.js (v18.x or higher)npm or yarnSupabase Project CredentialsExecutionClone the core repositoryBashgit clone https://github.com/PrakharVerma/PeopleConnect.git
+Access the directoryBashcd PeopleConnect
+Install core dependenciesBashnpm install
+Configure environment variablesBashcp .env.example .env
+(Insert your Supabase and API keys into the .env file)Launch the local development serverBashnpm run dev
 Target: http://localhost:3000📂 Project StructurePlaintextPeopleConnect/
 ├── 📁 public/            # Static assets and 3D models
 ├── 📁 src/
