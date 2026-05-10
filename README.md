@@ -92,31 +92,3 @@ graph TD;
     style D fill:#000000,stroke:#3ECF8E,stroke-width:2px,color:#fff
     style E fill:#000000,stroke:#3ECF8E,stroke-width:2px,color:#fff
     style F fill:#000000,stroke:#FFD43B,stroke-width:2px,color:#fff
-
-🚀 Deployment GuideFollow this sequence to ignite the PeopleConnect ecosystem on your local machine.PrerequisitesNode.js (v18.x or higher)npm or yarnSupabase Project CredentialsExecutionBash# 1. Clone the core repository
-git clone [https://github.com/PrakharVerma/PeopleConnect.git](https://github.com/PrakharVerma/PeopleConnect.git)
-
-# 2. Access the directory
-cd PeopleConnect
-
-# 3. Install core dependencies
-npm install
-
-# 4. Configure environment variables
-cp .env.example .env
-# --> Insert your Supabase and API keys into the .env file
-
-# 5. Launch the local development server
-npm run dev
-Target: http://localhost:3000📂 Project StructurePlaintextPeopleConnect/
-├── 📁 public/            # Static assets and 3D models
-├── 📁 src/
-│   ├── 📁 animations/    # GSAP configs and Three.js scenes
-│   ├── 📁 components/    # Reusable Glassmorphism UI components
-│   ├── 📁 pages/         # Core views (Wellness Hub, Dashboard)
-│   ├── 📁 context/       # State management
-│   ├── 📁 styles/        # Cyber-wellness dark themes & CSS modules
-│   └── 📄 App.jsx        # Root application
-├── 📄 .env.example       # Environment template
-└── 📄 package.json       # Dependencies
-👥 Engineering TeamArchitected and engineered by Team HACK OVERFLOW.RoleDeveloperLead DeveloperPrakhar VermaUI/UX DesignerAshish ChaubeyFront-end DeveloperDivyansh SharmaTechnical DemonstratorPaul🤝 Contributing to the EcosystemFork the repositoryCreate your Feature Branch (git checkout -b feature/NeonUI)Commit your Changes (git commit -m 'Enhance Neon UI accents')Push to the Branch (git push origin feature/NeonUI)Open a Pull RequestInitiated by Prakhar. Built with ⚡ & 💙 for the Community.
