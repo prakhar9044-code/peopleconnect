@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:000000,50:00E5FF,100:0055FF&height=300&section=header&text=PeopleConnect&fontSize=90&fontAlignY=38&animation=twinkling&fontColor=ffffff&desc=A%20Digital%20Ecosystem%20for%20Social%20%26%20Mental%20Wellness&descAlignY=58&descAlign=50&descSize=20" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=00FFFF&height=280&section=header&text=PeopleConnect&fontSize=90&fontAlignY=40&animation=twinkling&fontColor=ffffff&desc=A%20Digital%20Ecosystem%20for%20Social%20%26%20Mental%20Wellness&descAlignY=60&descAlign=50&descSize=20" width="100%"/>
 
 <br/>
 
@@ -772,7 +772,7 @@ subject to the conditions in the full LICENSE file.
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:000000,50:00E5FF,100:0055FF&height=3&width=100%" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=00FFFF&height=3&width=100%" width="100%"/>
 
 <br/>
 
@@ -791,6 +791,6 @@ subject to the conditions in the full LICENSE file.
 
 <br/>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:000000,50:00E5FF,100:0055FF&height=120&section=footer&animation=twinkling" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=00FFFF&height=120&section=footer&animation=twinkling" width="100%"/>
 
 </div>
