@@ -1,11 +1,11 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=300&section=header&text=PeopleConnect&fontSize=90&fontAlignY=38&animation=twinkling&fontColor=ffffff&desc=A%20Digital%20Ecosystem%20for%20Social%20%26%20Mental%20Wellness&descAlignY=58&descAlign=50&descSize=20" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:000000,50:00E5FF,100:0055FF&height=300&section=header&text=PeopleConnect&fontSize=90&fontAlignY=38&animation=twinkling&fontColor=ffffff&desc=A%20Digital%20Ecosystem%20for%20Social%20%26%20Mental%20Wellness&descAlignY=58&descAlign=50&descSize=20" width="100%"/>
 
 <br/>
 
-<a href="https://github.com/PrakharVerma/PeopleConnect">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=22&duration=3000&pause=800&color=00E5FF&center=true&vCenter=true&multiline=false&repeat=true&width=900&height=55&lines=🌐+Empowering+Social+Welfare+Through+Technology;🧠+Advancing+Mental+Wellness+With+AI;✨+Cyber-Wellness+Aesthetic+%2B+Dark+Luxury+UI;🤝+Built+for+the+Community%2C+By+the+Community;⚡+Powered+by+Three.js%2C+GSAP%2C+and+React" alt="Typing SVG" />
+<a href="https://github.com/prakhar9044-code/peopleconnect">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&weight=700&size=22&duration=3000&pause=800&color=00E5FF&center=true&vCenter=true&multiline=false&repeat=true&width=900&height=55&lines=🌐+Empowering+Social+Welfare+Through+Technology;🧠+Advancing+Mental+Wellness+With+AI;✨+Cyber-Wellness+Aesthetic+%2B+Dark+Luxury+UI;🤝+Built+for+the+Community%2C+By+the+Community;⚡+Powered+by+Three.js%2C+GSAP%2C+and+React" alt="Typing SVG" />
 </a>
 
 <br/><br/>
@@ -30,11 +30,11 @@
 
 <!-- SOCIAL BADGES -->
 <p align="center">
-  <img src="https://img.shields.io/github/stars/PrakharVerma/PeopleConnect?style=for-the-badge&logo=github&color=FFD700&logoColor=black&label=Stars" />
-  <img src="https://img.shields.io/github/forks/PrakharVerma/PeopleConnect?style=for-the-badge&logo=github&color=00E5FF&logoColor=white&label=Forks" />
-  <img src="https://img.shields.io/github/issues/PrakharVerma/PeopleConnect?style=for-the-badge&logo=github&color=FF6B6B&logoColor=white&label=Issues" />
-  <img src="https://img.shields.io/github/last-commit/PrakharVerma/PeopleConnect?style=for-the-badge&logo=github&color=00E5FF&logoColor=white" />
-  <img src="https://komarev.com/ghpvc/?username=PrakharVerma-PeopleConnect&label=Ecosystem+Views&color=00E5FF&style=for-the-badge" />
+  <img src="https://img.shields.io/github/stars/prakhar9044-code/peopleconnect?style=for-the-badge&logo=github&color=FFD700&logoColor=black&label=Stars" />
+  <img src="https://img.shields.io/github/forks/prakhar9044-code/peopleconnect?style=for-the-badge&logo=github&color=00E5FF&logoColor=white&label=Forks" />
+  <img src="https://img.shields.io/github/issues/prakhar9044-code/peopleconnect?style=for-the-badge&logo=github&color=FF6B6B&logoColor=white&label=Issues" />
+  <img src="https://img.shields.io/github/last-commit/prakhar9044-code/peopleconnect?style=for-the-badge&logo=github&color=00E5FF&logoColor=white" />
+  <img src="https://komarev.com/ghpvc/?username=prakhar9044-code&label=Ecosystem+Views&color=00E5FF&style=for-the-badge" />
 </p>
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png" width="100%"/>
@@ -71,7 +71,7 @@
 ## 🌌 Overview
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=400&size=16&pause=1000&color=00E5FF&center=true&vCenter=true&width=700&height=35&lines=Where+Technology+Meets+Human+Empathy." alt="Subtitle" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&weight=400&size=16&pause=1000&color=00E5FF&center=true&vCenter=true&width=700&height=35&lines=Where+Technology+Meets+Human+Empathy." alt="Subtitle" />
 </div>
 
 <br/>
@@ -99,7 +99,7 @@ Born from a vision of **profound social impact by Prakhar**, this platform trans
 ## ✨ Interactive Ecosystem Features
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=15&pause=1200&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=Five+Pillars+of+the+PeopleConnect+Universe." />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=15&pause=1200&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=Five+Pillars+of+the+PeopleConnect+Universe." />
 </div>
 
 <br/>
@@ -304,7 +304,7 @@ The intelligence layer that makes PeopleConnect feel like it truly knows you —
 ## ⚙️ System Architecture
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=14&pause=1200&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=Distributed+%7C+Microservices+%7C+Event-Driven" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=14&pause=1200&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=Distributed+%7C+Microservices+%7C+Event-Driven" />
 </div>
 
 <br/>
@@ -465,7 +465,7 @@ PeopleConnect/
 ## 🚀 Getting Started
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=14&pause=1000&color=00E5FF&center=true&vCenter=true&width=500&height=30&lines=From+zero+to+ecosystem+in+5+steps." />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=14&pause=1000&color=00E5FF&center=true&vCenter=true&width=500&height=30&lines=From+zero+to+ecosystem+in+5+steps." />
 </div>
 
 <br/>
@@ -489,7 +489,7 @@ Ensure the following are installed on your system:
 **Step 1 — Clone the Repository**
 
 ```bash
-git clone https://github.com/PrakharVerma/PeopleConnect.git
+git clone https://github.com/prakhar9044-code/peopleconnect.git
 cd PeopleConnect
 ```
 
@@ -588,7 +588,7 @@ PORT=3000
 ## 🎨 UI/UX Design System
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=14&pause=1000&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=Dark+Luxury+%C3%97+Cyber-Wellness+%C3%97+AMOLED-First" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=14&pause=1000&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=Dark+Luxury+%C3%97+Cyber-Wellness+%C3%97+AMOLED-First" />
 </div>
 
 <br/>
@@ -636,7 +636,7 @@ Duration:    Page transitions: 800ms
 ## 🗺️ Roadmap
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=14&pause=1000&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=The+journey+is+just+beginning." />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=14&pause=1000&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=The+journey+is+just+beginning." />
 </div>
 
 <br/>
@@ -691,7 +691,7 @@ Duration:    Page transitions: 800ms
 ## 🤝 Contributing
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=14&pause=1000&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=Every+contribution+is+a+step+toward+social+impact." />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=14&pause=1000&color=00E5FF&center=true&vCenter=true&width=600&height=30&lines=Every+contribution+is+a+step+toward+social+impact." />
 </div>
 
 <br/>
@@ -700,7 +700,7 @@ We welcome contributors of all skill levels. Here's how to get involved:
 
 **1. Fork the repository**
 ```bash
-gh repo fork PrakharVerma/PeopleConnect --clone
+gh repo fork prakhar9044-code/peopleconnect --clone
 ```
 
 **2. Create a feature branch**
@@ -740,7 +740,7 @@ git push origin feature/your-feature-name
 
 <div align="center">
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=PrakharVerma&bg_color=000000&color=00E5FF&line=0055FF&point=00E5FF&area=true&hide_border=true" width="95%" />
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=prakhar9044-code&bg_color=000000&color=00E5FF&line=0055FF&point=00E5FF&area=true&hide_border=true" width="95%" />
 
 </div>
 
@@ -772,7 +772,7 @@ subject to the conditions in the full LICENSE file.
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=6,11,20&height=3&width=100%" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:000000,50:00E5FF,100:0055FF&height=3&width=100%" width="100%"/>
 
 <br/>
 
@@ -791,6 +791,6 @@ subject to the conditions in the full LICENSE file.
 
 <br/>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer&animation=twinkling" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:000000,50:00E5FF,100:0055FF&height=120&section=footer&animation=twinkling" width="100%"/>
 
 </div>
