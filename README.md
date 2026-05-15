@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=00FFFF&height=250&section=header&text=PeopleConnect&fontSize=85&fontAlignY=40&animation=twinkling&fontColor=ffffff&desc=A%20Digital%20Ecosystem%20for%20Social%20%26%20Mental%20Wellness&descAlignY=60&descAlign=60" width="100%"/>
+<img src="./assets/header.svg" alt="PeopleConnect Banner" width="100%"/>
 
 <br/>
 
